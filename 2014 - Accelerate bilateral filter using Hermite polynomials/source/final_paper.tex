@@ -1,0 +1,256 @@
+\documentclass[twocolumn]{el-author}
+
+\usepackage{multirow}
+
+\makeatletter
+\DeclareRobustCommand\onedot{\futurelet\@let@token\@onedot}
+\def\@onedot{\ifx\@let@token.\else.\null\fi\xspace}
+
+\def\eg{\emph{e.g}\onedot} \def\Eg{\emph{E.g}\onedot}
+\def\ie{\emph{i.e}\onedot} \def\Ie{\emph{I.e}\onedot}
+\def\cf{\emph{c.f}\onedot} \def\Cf{\emph{C.f}\onedot}
+\def\etc{\emph{etc}\onedot} \def\vs{\emph{vs}\onedot}
+\def\wrt{w.r.t\onedot} \def\dof{d.o.f\onedot}
+\def\etal{\emph{et al}\onedot}
+\makeatother
+
+\newcommand{\hH}{\hat{H}}
+\newcommand{\D}{^\dagger}
+\newcommand{\ua}{\uparrow}
+\newcommand{\nc}{\newcommand}
+\nc{\da}{\downarrow} \nc{\hc}{\hat{c}} \nc{\hS}{\hat{S}}
+\nc{\bra}{\langle} \nc{\ket}{\rangle} \nc{\eq}{equation (\ref}
+\nc{\h}{\hat} \nc{\hT}{\h{T}}\nc{\be}{\begin{eqnarray}}
+\nc{\ee}{\end{eqnarray}}\nc{\rd}{\textrm{d}}\nc{\e}{eqnarray}\nc{\hR}{\hat{R}}\nc{\Tr}{\mathrm{Tr}}
+\nc{\tS}{\tilde{S}}\nc{\tr}{\mathrm{tr}}\nc{\8}{\infty}\nc{\lgs}{\bra\ua,\phi|}\nc{\rgs}{|\ua,\phi\ket}
+\nc{\hU}{\hat{U}}\nc{\lfs}{\bra\phi|}\nc{\rfs}{|\phi\ket}\nc{\hZ}{\hat{Z}}\nc{\hd}{\hat{d}}\nc{\mD}{\mathcal{D}}
+\nc{\bd}{\bar{d}}\nc{\bc}{\bar{c}}\nc{\mc}{\mathcal}\nc{\ea}{eqnarray}\nc{\mG}{\mathcal{G}}\nc{\bce}{\begin{center}}
+\nc{\ece}{\end{center}}
+%\date{12th December 2011}
+
+\begin{document}
+
+\title{Accelerate Bilateral Filter Using Hermite Polynomials}
+
+\author{Longquan Dai, Mengke Yuan and Xiaopeng Zhang}
+
+\abstract{The bilateral filter (BF) as an edge-preserving lowpass filter is a valuable tool in various image processing tasks, including noise reduction and dynamic range
+compression. However, its computational cost is too high to apply in the real-time processing tasks as the range kernel, which acts on the pixel intensities, makes the averaging process nonlinear and computationally intensive, particularly when the spatial filter is large. Using the well-known Hermite Polynomials, we propose a BF accelerating method which reduces the computational complexity from $O(r^2n)$ to $O(n)$, where $r$ denotes the filter size of BF and $n$ is the total pixels number of an image.}
+
+\maketitle
+
+\section{Introduction and related work}
+
+The bilateral filter (BF)~\cite{Tomasi_ICCV_1998} is a valuable tool for many computer vision and computer graphic applications such as denoising, demosaicking and optical-flow estimation. To preserve the detail information in the image, BF computes its results by a weighted average of the pixels in a neighborhood with signal-dependent coefficients. This is significantly different from the traditional FIR lowpass filter that employs a predefined convolution kernel to smooth images. Although the change endows BF the ability to detect edges and to average only the pixels on the same side of an edge, the advantages do not come at no cost as BF substitutes the efficient linear convolution with the time-consuming nonlinear convolution.
+
+
+The brute-force implementation of BF calculates the filtering results $I^{bf}$ with $O(r^2n)$ complexity by directly performing the nonlinear convolution on the target image $I$ as illustrated in Eq.~\eqref{eq:BF_nominator}~\eqref{eq:BF_denominator}.
+%
+\begin{align}
+&I_p^{bf} = \frac{1}{W^{bf}_{p}} \sum_{q \in \Omega_p} G_{\sigma_s} (p-q) G_{\sigma_r} (I_p - I_q) I_q
+\label{eq:BF_nominator} \\
+\text{with} \quad & W^{bf}_{p} = \sum_{q \in \Omega} G_{\sigma_s} (p-q) G_{\sigma_r} (I_p - I_q)
+\label{eq:BF_denominator}
+\end{align}
+%
+where $G_{\sigma_s}(p-q) = e^{-\sigma_s{\|p-q\|^2}}$ and $G_{\sigma_r}(I_p - I_q) = e^{-{\sigma_r}{(I_p - I_q)^2}}$ are the linear Gaussian spatial kernel and the nonlinear Gaussian range kernel respectively, $\Omega_p$ denotes the neighborhood of the pixel $p$. From Eq.~\eqref{eq:BF_nominator}-\eqref{eq:BF_denominator}, we can easily find out that both the nonlinearity and the signal dependent coefficients of BF are introduced by the range kernel $G_{\sigma_r}$ term as the parameters of $G_{\sigma_r}$ involves the intensity image $I$. If the nonlinear kernel $G_{\sigma_r}$ can be `linearized', the smoothing results of BF could be computed efficiently. Specifically, for an image of size $n$, we can compute the linear convolution for arbitrary window size $\Omega_p$ with arbitrary kernel at the cost of $n \log n$ operations by using the Fourier transform. Moreover, this can be further reduced to a total of $O(n)$ operations~\cite{Young_SP_1995} by the recursive implementation of the Gaussian filter.
+
+In literature, Porikli~\cite{Porikli_CVPR_2008} employed the Taylor series to linearize the nonlinear term of BF. Roughly speaking, the Gaussian function can be approximated by the first $M$ terms of its Taylor expansion with arbitrary accuracy, as illustrated in Eq.~\eqref{eq:gaussian_approx}.
+%
+\begin{equation}
+e^{-{\sigma_r}{x^2}} = \sum_{i=0}^M (-1)^i \frac{x^{2i}}{i!}
+\label{eq:gaussian_approx}
+\end{equation}
+%
+Then, applying the binomial formula $(x+y)^i = \sum_{k=0}^i {i \choose k}x^{i-k}y^k$ to Eq.~\eqref{eq:gaussian_approx}, we can write $e^{-{\sigma_r}{(I_p - I_q)^2}}$ as
+%
+\begin{equation}
+e^{-{\sigma_r}{(I_p - I_q)^2}} = \sum_{i=0}^M \frac{(-1)^i}{i!} \sum_{k=0}^{2i} {2i \choose k}{I_p}^{2i-k}{I_q}^k
+\label{eq:gaussian_approx_bino}
+\end{equation}
+%
+Further, plugging Eq.~\eqref{eq:gaussian_approx_bino} into Eq.~\eqref{eq:BF_nominator}, the value $I_p^{bf}$ can be figured out by Eq.~\eqref{eq:BF_nominator_gaussian_approx_bino}.
+%
+\begin{equation}
+I_p^{bf} = \frac{1}{W^{bf}_{p}} \sum_{i=0}^M \sum_{k=0}^{2i} \frac{(-1)^i}{i!} {2i \choose k}{I_p}^{2i-k} \sum_{q \in \Omega_p} G_{\sigma_s} (p-q)  {I_q}^{k+1}
+\label{eq:BF_nominator_gaussian_approx_bino}
+\end{equation}
+%
+Notice that the inner sum $\sum_{q \in \Omega_p}$ of Eq.~\eqref{eq:BF_nominator_gaussian_approx_bino} is just the linear convolution performed on the image $I^{k+1}$.  According to~\cite{Young_SP_1995}, the operation could be completed in constant time. Additionally, the outer sum $\sum_{i=0}^M \sum_{k=0}^{2i}$ of Eq.~\eqref{eq:BF_nominator_gaussian_approx_bino} is pointwise operation which can also be computed in linear time. In a similar way, we can reduce the computational complexity of the denominator $W^{bf}_{p}$ of BF to $O(n)$ by substituting Eq.~\eqref{eq:gaussian_approx_bino} with $G_{\sigma_r}$ in Eq.~\eqref{eq:BF_denominator}.
+
+
+Chaudhury \etal~\cite{Chaudhury_TIP_2011} argued that the Taylor expansion is inaccurate for approximating the Gaussian function as it only use polynomials to approximate an exponential function. Instead, they exploited trigonometric functions to approximate the Gaussian function by proving
+%
+\begin{equation}
+e^{- \sigma_r x^2} = \lim_{N \rightarrow \infty } \left [ \cos \left ( \frac{ \sigma_r x}{\sqrt{2N}} \right ) \right ]^N
+\label{eq:cos}
+\end{equation}
+%
+Eq.~\eqref{eq:cos} implies that for a sufficiently large $M$, the value on the right part approaches to the value of the Gaussian function on the left part.
+%
+\begin{equation}
+e^{- \sigma_r x^2} =  \left [ \cos \left ( \frac{ \sigma_r x}{\sqrt{2M}} \right ) \right ]^M
+\label{eq:cos_approx}
+\end{equation}
+%
+Jointly employing the binomial formula and the angle addition formula $\cos (x-y)=\cos (x) \cos (y) + \sin (x) \sin (y)$, Chaudhury \etal transform $e^{-{\sigma_r}{(I_p - I_q)^2}}$ into Eq.~\eqref{eq:gaussian_approx_cos}.
+%
+\begin{equation}
+e^{-{\sigma_r}{(I_p - I_q)^2}} = \sum_{k=0}^M { M \choose k} C_p^{M-k} S_p^k C_q^{M-k} S_q^k
+\label{eq:gaussian_approx_cos}
+\end{equation}
+%
+where $C = \cos \left ( \frac{ \sigma_r I}{\sqrt{2M}} \right ) $ and $S = \sin \left ( \frac{ \sigma_r I}{\sqrt{2M}} \right ) $. Then, plugging Eq.~\eqref{eq:gaussian_approx_cos} into Eq.~\eqref{eq:BF_nominator}, Chaudhury \etal calculate $I_p^{bf}$ by
+%
+\begin{equation}
+I_p^{bf} = \frac{1}{W^{bf}_{p}} \sum_{k=0}^M { M \choose k} C_p^{M-k} S_p^k \sum_{q \in \Omega_p} G_{\sigma_s} (p-q) C_q^{M-k} S_q^k {I_q}
+\label{eq:BF_nominator_gaussian_approx_cos}
+\end{equation}
+%
+Similarly to Eq.~\eqref{eq:BF_nominator_gaussian_approx_bino}, the inner sum $\sum_{q \in \Omega_p}$ of Eq.~\eqref{eq:BF_nominator_gaussian_approx_cos} is the
+linear convolution performed on the image $C^{M-k}S^k$ and the outer sum $\sum_{k=0}^M$ is the pointwise operation. The running cost of the denominator $W^{bf}_{p}$ of BF can also be reduced to $O(n)$ in the same way. Therefore, we say that the overall complexity is $O(n)$.
+
+Although both Porikli and Chaudhury claimed that the computational cost of their methods are linear, the actual running cost is markedly  different. Specifically, the method of Porikli involves computing the auxiliary images $I^{k+1}$ whereas the method of Chaudhury needs to compute the auxiliary images $C^{M-k}S^k$. Thus, unlike Porikli's method which only performs multiplication and addition operations, Chaudhury's method not just performs multiplication and addition operations, but also calculates the cosine function and the sine function. As is known to all, the floating point addition or subtraction requires 6 clock cycles, multiplication requires 8 clock cycles, and division requires 30-44 clock cycles on the Intel x86 processor. But the cosine or sine function or exponential function requires between 180-280 clock cycles. Therefore, Chaudhury's method must pay for more running time. The extra cost is not waste as it is spent on pursuing more accurate filtering results. Now, our question is whether we can reduce the extra cost as the Porikli's method and produce the accurate results as the method of Chaudhury? The answer is Yes. Our method takes in the advantages of the two methods.
+
+%
+\begin{table}[t]
+\processtable{The first five Hermite polynomials. }
+{\begin{tabular}{l|l}\hline
+0, & $H_0(x)=1$ \\
+1, & $H_1(x)=2x$  \\
+2, & $H_2(x)=4x^2-2$ \\
+3, & $H_3(x)=8x^3-12x$ \\
+4, & $H_4(x)=16x^4-48x^2+12$ \\\hline
+%5, & $H_5(x)=32x^5-160x^3+120x$ \\
+%6, & $H_6(x)=64x^6-480x^4+720x^2-120$ \\\hline
+\end{tabular}\label{tab:Hermite}}{}
+\end{table}
+
+\section{Proposed method }
+
+
+We employ the Hermite polynomials together with the exponential function to approximate $e^{-{\sigma_r}{(I_p - I_q)^2}}$. The Hermite polynomials are a classical orthogonal polynomial sequence that arise in probability, combinatorics and physics. We list the first five terms in Tab~\ref{tab:Hermite} as examples to give the flavor of the polynomials. More information can be found in~\cite{Temme_BOOK_1996} and reference therein. To derive the approximation formula, we take advantage of the generating function. Specifically, the Hermite polynomials are given by the exponential generating function
+%
+\begin{equation}
+e^{(2xt-t^2)} = \sum_{i=0}^\infty \frac {H_i(x)}{i!} t^i
+\end{equation}
+%
+Here, we truncate the series and select the first $M$ terms to approximate $e^{(2xt-t^2)}$ as illustrated in Eq.~\eqref{eq:approx_Hermite}.
+%
+\begin{equation}
+e^{(2xt-t^2)} = \sum_{i=0}^M \frac {H_i(x)}{i!} t^i
+\label{eq:approx_Hermite}
+\end{equation}
+%
+Then, by employing Eq.~\eqref{eq:approx_Hermite}, $e^{-{\sigma_r}{(I_p - I_q)^2}}$ can be rewritten as
+%
+\begin{equation}
+\begin{split}
+& e^{-{\sigma_r}{(I_p - I_q)^2}} = e^{-{\sigma_r}{I_p^2}} e^{(2(\sqrt{\sigma_r} I_p)(\sqrt{\sigma_r} I_q)-(\sqrt{\sigma_r} I_q)^2)} \\
+= & \sum_{i=0}^M e^{-{\sigma_r}{I_p^2}} H_i(\sqrt{\sigma_r} I_p) \frac {{\sigma_r}^{\frac{i}{2}}}{i!} I_q^i
+\end{split}
+\label{eq:gaussian_approx_Hermite}
+\end{equation}
+%
+Further, we plug Eq.~\eqref{eq:gaussian_approx_Hermite} into Eq.~\eqref{eq:BF_nominator} and obtain the value $I_p^{bf}$ by calculating
+%
+\begin{equation}
+\begin{split}
+I_p^{bf} = &\frac{e^{-{\sigma_r}{I_p^2}}}{W^{bf}_{p}} \sum_{i=0}^M \sum_{k=0}^{i}  {2i \choose k} \frac { H_i(\sqrt{\sigma_r} I_p) {I_p}^{i-k} {\sigma_r}^{\frac{i}{2}}}{i!} \\
+&\sum_{q \in \Omega_p} G_{\sigma_s} (p-q)  {I_q}^{k+1}
+\label{eq:BF_nominator_gaussian_approx_Hermite}
+\end{split}
+\end{equation}
+%
+Once again, the inner sum $\sum_{q \in \Omega_p}$ of Eq.~\eqref{eq:BF_nominator_gaussian_approx_Hermite} is the linear convolution performed on the image ${I_q}^{k+1}$ and the outer sum of Eq.~\eqref{eq:BF_nominator_gaussian_approx_Hermite} is the pointwise operation. A similar accelerating procedure can also be applied to the denominator $W^{bf}_{p}$ of BF. We therefore conclude that the computational complexity of our accelerating algorithm is also $O(n)$.
+
+\begin{table}[t]
+\caption{The running cost in the memory limited system.}
+\begin{tabular}{|c|c|c|c|c|c|}
+\hline
+\multirow{2}{*}{} & \multicolumn{5}{c|}{The computational complexity of the inner sum operation} \\ \cline{2-6}
+                  & add            & mul                         & exp     & sin      & cos      \\ \hline
+Porik~\cite{Porikli_CVPR_2008}           & 0              & $nM(2M + 1)$                & 0       & 0        & 0        \\ \hline
+Chau~\cite{Chaudhury_TIP_2011}         & 0              & $nM(M + 3)$                 & 0       & $nM$     & $nM$     \\ \hline
+Ours              & 0              & $\frac{n M (M+1)}{2}$       & 0       & 0        & 0        \\ \hline
+\multirow{2}{*}{} & \multicolumn{5}{c|}{The computational complexity of the outer sum operation} \\ \cline{2-6}
+                  & add            & mul                         & exp     & sin      & cos      \\ \hline
+Porik~\cite{Porikli_CVPR_2008}           & $n(2M-1)$      & $n(M(2M+3)+1)$              & 0       & 0        & 0        \\ \hline
+Chau~\cite{Chaudhury_TIP_2011}        & $n(M-1)$       & $n(M(M+3)+1)$               & 0       & $nM$     & $nM$     \\ \hline
+Ours              & $n(M-1)$       & $n(\frac{M(M+3)}{2}+2)$     & n       & 0        & 0        \\ \hline
+\end{tabular}
+\label{tab:limited}
+\vspace{-0.3cm}
+\end{table}
+
+
+\section{Analysis and Experiment }
+
+\begin{table}[b]
+\vspace{-0.2cm}
+\caption{The running cost and memory consumption in the Desktop PC.}
+\begin{tabular}{|c|c|c|c|c|c|c|}
+\hline
+\multirow{2}{*}{} & \multicolumn{6}{c|}{The running cost of the outer sum}                               \\ \cline{2-7}
+                  & add & mul                   & $\exp$ & $\sin$ & $\cos$ & mem \\ \hline
+Porik~\cite{Porikli_CVPR_2008}           & nM & $n M (2M+1)$          & 0      & 0      & 0      &  n(2M+1)   \\ \hline
+Chau~\cite{Chaudhury_TIP_2011}         & nM & $\frac{n M (M+1)}{2}$ & 0      & 0      & 0      &   2nM  \\ \hline
+Ours              & nM & $\frac{n (M (M+1)+2)}{2}$ & 0      & 0      & 0      &   n(M + 2)  \\ \hline
+\end{tabular}
+\label{Tab:PC}
+\end{table}
+
+In this section, we implement the three algorithms by Matlab and exhibit the computational resource consumption of the three methods in the memory limited system and desktop PC. In the memory limited system, all intermediate values need to be computed repeatedly because there is no redundant space to cache them. In Eq.~\eqref{eq:BF_nominator_gaussian_approx_bino}~\eqref{eq:BF_nominator_gaussian_approx_cos}~\eqref{eq:BF_nominator_gaussian_approx_Hermite}, the inner sum of the three algorithms take two different operations. The first is the convolution that performs on the auxiliary images such as $I^{k+1}$ and $C^{M-k}S^k$. The second is computing the auxiliary images. We only take the second into account as the cost of the convolution operation of the three methods are the same. Since both the inner sum of Porikli's method and ours only involve the polynomial functions $I^{k+1}$, the running cost only depends on the upper bound of $k$. The bound of Porikli's method and ours are $2M$ and $M$ respectively. By a simple calculation, we can find that the inner sum of Eq.~\eqref{eq:BF_nominator_gaussian_approx_bino}~\eqref{eq:BF_nominator_gaussian_approx_Hermite} totally needs $n M (2M+1)$ multiplications and $\frac{n M (M+1)}{2}$ multiplications. In contrast, the inner sum of Eq.~\eqref{eq:BF_nominator_gaussian_approx_cos} consumes $n M (M+3)$ multiplications plus $nM$ cosine operations and  $nM$ sine operations. To calculate the running cost of the outer sum of Eq.~\eqref{eq:BF_nominator_gaussian_approx_bino}~\eqref{eq:BF_nominator_gaussian_approx_Hermite},   we rule out the cost of computing the coefficients in the outer sum as they can be precomputed in advance. Indeed, the outer sum $\sum_{i=0}^M \sum_{k=0}^{2i}$ of Eq.~\eqref{eq:BF_nominator_gaussian_approx_bino} calculates the value of a polynomial with degree $2M$, then the running cost is $n(M(2M+3)+1)$ multiplications and $n(2M-1)$ additions. Unlike Eq.~\eqref{eq:BF_nominator_gaussian_approx_bino}, the outer sum $\sum_{i=0}^M \sum_{k=0}^{i}$ of Eq.~\eqref{eq:BF_nominator_gaussian_approx_Hermite} can be transformed to an exponential function by a polynomial with degree $M$. The running cost thus is $n$ exponential operations with $n(\frac{M(M+3)}{2}+2)$ multiplications and $n(M-1)$ additions. In contrast, the outer sum of Eq.~\eqref{eq:BF_nominator_gaussian_approx_cos} costs much as the operation computes a trigonometric polynomial with degree $M$. So the total running cost is $n(M(M+3)+1)$ multiplications, $n(M-1)$ additions, $nM$ cosine operations and $nM$ sin operations. For the convenience of comparison, we list the running cost of computing the numerator Eq.~\eqref{eq:BF_nominator} in the Tab~\ref{tab:limited}.  The cost of calculating the denominator Eq.~\eqref{eq:BF_denominator} is intentionally omitted as it is similar to Tab~\ref{tab:limited} for the three methods. We can observe from Tab~\ref{tab:limited} that the computational burden of Chaudhury's method is the heaviest. Although our method involves the exponential function, the method of Porikli will pay more running time on calculating the outer sum $\sum_{i=0}^M \sum_{k=0}^{2i}$. The overall running cost of the two methods thus is almost the same. Unlike the memory limited system, Desktop PC usually has adequate space to cache all intermediate results. If we could precompute the intermediate values and store them in the memory, lots of running time can be saved. By sticking to the idea, a common way used by Porikli and Chaudhury to accelerate the computing speed is to calculate the auxiliary images $I^{k+1}$, $C^{M-k}S^k$ and $I C^{M-k}S^k$ in advance. In this manner, we could easily eliminate the running cost of the inner sum and significantly reduce the costs of the outer sum. But the expense is a huge memory consumption as shown in the `mem' column of Tab~\ref{Tab:PC}. Whereas the three methods in the memory limited system only occupy $n$ word memory. A closer look on Tab~\ref{Tab:PC} suggests that Porikli's method consumes the most computational resource. In contrast, the memory consumption of our method is only half of Chaudhury's method while the running cost is only a little larger than the best Chaudhury's method.
+
+
+
+To illustrate the tradeoff between speed and accuracy, we conduct two experiments. First, we fix $M = 5$ to compare the filtering results of three accelerating methods with the result of the brute-force implementation. The Peak signal-to-noise ratio (PSNR) is employed to measure the similarity. The higher score implies the more accurate result. The frames per second (FPS) is exploited to measure the processing speed. Similarly, the larger index means the higher speed. The statistical data is reported in Tab~\ref{tab:tradeoff}, where the size of test image is $256 \times 256$. In the second experiment, we keep the PSNR index unchanged and measure the speed of each method. Strictly speaking, the PSNR indices cannot be kept the same as they are affected by various reasons. Here, we tweak $M$ to keep them as same as possible and list the statistical data in Tab~\ref{tab:tradeoff} too. From the table, we can learn that our method takes in the advantages of the two methods of Porikli and Chaudhury. The speed approaches to Porikli's method while the approximation accuracy is nearly same with Chaudhury's method.
+
+\begin{table}[h]
+%\vspace{-0.1cm}
+\caption{The tradeoff between speed and accuracy}
+\begin{tabular}{|c|c|c|c|c|c|c|}
+\hline
+\multirow{2}{*}{} & \multicolumn{3}{c|}{Fixed $M = 5$} & \multicolumn{3}{c|}{Fixed PSNR} \\ \cline{2-7}
+                  & Ours  & Porik~\cite{Porikli_CVPR_2008}  & Chau~\cite{Chaudhury_TIP_2011} & Ours  & Porik  & Chau  \\ \hline
+PSNR              & 43.26 & 42.95    &  43.32    & 50.26 & 50.29    & 50.25      \\ \hline
+FPS               & 6.3   & 6.5      &  2.6      & 2.9   & 2.3      & 1.4        \\ \hline
+\end{tabular}
+\label{tab:tradeoff}
+\vspace{-0.1cm}
+\end{table}
+
+\section{Conclusion }
+In this letter, we propose a novel method to accelerate BF by using the well-known Hermite polynomials. The running cost and memory consumption almost equal to Porikli's method. More importantly, the approximation accuracy is similar to Chaudhury's method.
+\vskip3pt
+\ack{This work was partially supported by the National Natural Science Foundation of China (61331018, 61332017, 91338202, and 61271430), and partly by the open funding project of State Key Laboratory of Virtual Reality Technology and Systems, Beihang University (Grant No. BUAA-VR-14KF-10).}
+\vskip3pt
+\noindent Longquan Dai, Mengke Yuan and Xiaopeng Zhang (\textit{NLPR, Institute of Automation Chinese Academy of Sciences, Beijing, China})
+\vskip3pt
+
+\noindent E-mail: lqdai@nlpr.ia.ac.cn
+
+\begin{thebibliography}{}
+
+\bibitem{Chaudhury_TIP_2011}
+K.N. Chaudhury, D.~Sage, and M.~Unser. Fast o(1) bilateral filtering using trigonometric range kernels. \emph{IEEE Transactions on Image Processing}, 20\penalty0
+  (12):\penalty0 3376--3382, Dec 2011.
+
+\bibitem{Porikli_CVPR_2008}
+F.~Porikli. Constant time o(1) bilateral filtering. In \emph{IEEE Conference on Computer Vision and Pattern Recognition},
+  pages 1--8, June 2008.
+
+\bibitem{Temme_BOOK_1996}
+Nico~M. Temme. \emph{Special functions : an introduction to the classical functions
+  of mathematical physics}. J. Wiley \& sons, New York, 1996.
+\bibitem{Tomasi_ICCV_1998}
+C.~Tomasi and R.~Manduchi. Bilateral filtering for gray and color images. In \emph{International Conference on Computer Vision}, pages
+  839--846, Jan 1998.
+
+\bibitem{Young_SP_1995}
+Ian~T. Young and Lucas~J. van Vliet. Recursive implementation of the gaussian filter. \emph{Signal Process.}, 44\penalty0 (2):\penalty0 139--151, June
+  1995.
+
+\end{thebibliography}
+
+\end{document} 
