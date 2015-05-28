@@ -1,0 +1,968 @@
+%% Copyright 2009 Elsevier Ltd
+%%
+%% This file is part of the 'Elsarticle Bundle'.
+%% ---------------------------------------------
+%%
+%% It may be distributed under the conditions of the LaTeX Project Public
+%% License, either version 1.2 of this license or (at your option) any
+%% later version.  The latest version of this license is in
+%%    http://www.latex-project.org/lppl.txt
+%% and version 1.2 or later is part of all distributions of LaTeX
+%% version 1999/12/01 or later.
+%%
+%% The list of all files belonging to the 'Elsarticle Bundle' is
+%% given in the file `manifest.txt'.
+%%
+%% Template article for Elsevier's document class `elsarticle'
+%% with numbered style bibliographic references
+%%
+%% $Id: elsarticle-template-1a-num.tex 151 2009-10-08 05:18:25Z rishi $
+%% $URL: http://lenova.river-valley.com/svn/elsbst/trunk/elsarticle-template-1a-num.tex $
+\documentclass[preprint,10pt,5p,times,twocolumn]{elsarticle}
+%%
+%% \documentclass[preprint,12pt]{elsarticle}
+
+%% Use the option review to obtain double line spacing
+%% \documentclass[preprint,review,12pt]{elsarticle}
+
+%% Use the options 1p,twocolumn; 3p; 3p,twocolumn; 5p; or 5p,twocolumn
+%% for a journal layout:
+%% \documentclass[final,1p,times]{elsarticle}
+%% \documentclass[final,1p,times,twocolumn]{elsarticle}
+%% \documentclass[final,3p,times]{elsarticle}
+%% \documentclass[final,3p,times,twocolumn]{elsarticle}
+%% \documentclass[final,5p,times]{elsarticle}
+%% \documentclass[final,5p,times,twocolumn]{elsarticle}
+
+%% if you use PostScript figures in your article
+%% use the graphics package for simple commands
+%% \usepackage{graphics}
+%% or use the graphicx package for more complicated commands
+\usepackage{graphicx}
+%% or use the epsfig package if you prefer to use the old commands
+\usepackage{epsfig}
+
+%% The amssymb package provides various useful mathematical symbols
+\usepackage{amssymb}
+%% The amsthm package provides extended theorem environments
+%% \usepackage{amsthm}
+
+%% The lineno packages adds line numbers. Start line numbering with
+%% \begin{linenumbers}, end it with \end{linenumbers}. Or switch it on
+%% for the whole article with \linenumbers after \end{frontmatter}.
+%% \usepackage{lineno}
+
+%% natbib.sty is loaded by default. However, natbib options can be
+%% provided with \biboptions{...} command. Following options are
+%% valid:
+
+%%   round  -  round parentheses are used (default)
+%%   square -  square brackets are used   [option]
+%%   curly  -  curly braces are used      {option}
+%%   angle  -  angle brackets are used    <option>
+%%   semicolon  -  multiple citations separated by semi-colon
+%%   colon  - same as semicolon, an earlier confusion
+%%   comma  -  separated by comma
+%%   numbers-  selects numerical citations
+%%   super  -  numerical citations as superscripts
+%%   sort   -  sorts multiple citations according to order in ref. list
+%%   sort&compress   -  like sort, but also compresses numerical citations
+%%   compress - compresses without sorting
+%%
+\biboptions{square}
+
+% \biboptions{}
+\usepackage{amsmath}
+\usepackage{epstopdf}
+\usepackage{subcaption}
+\usepackage{algorithm}
+\usepackage{algorithmic}
+\usepackage[pagebackref=false,breaklinks=true,letterpaper=true,colorlinks,bookmarks=false]{hyperref}
+
+\usepackage{wrapfig}
+\usepackage{multirow}
+\usepackage{xspace}
+\makeatletter
+\DeclareRobustCommand\onedot{\futurelet\@let@token\@onedot}
+\def\@onedot{\ifx\@let@token.\else.\null\fi\xspace}
+
+\def\eg{\emph{e.g}\onedot} \def\Eg{\emph{E.g}\onedot}
+\def\ie{\emph{i.e}\onedot} \def\Ie{\emph{I.e}\onedot}
+\def\cf{\emph{c.f}\onedot} \def\Cf{\emph{C.f}\onedot}
+\def\etc{\emph{etc}\onedot} \def\vs{\emph{vs}\onedot}
+\def\wrt{w.r.t\onedot} \def\dof{d.o.f\onedot}
+\def\etal{\emph{et al}\onedot}
+\makeatother
+
+\graphicspath{{figure/}}
+
+\journal{Neurocomputing}
+
+\begin{document}
+
+\begin{frontmatter}
+
+%% Title, authors and addresses
+
+%% use the tnoteref command within \title for footnotes;
+%% use the tnotetext command for the associated footnote;
+%% use the fnref command within \author or \address for footnotes;
+%% use the fntext command for the associated footnote;
+%% use the corref command within \author for corresponding author footnotes;
+%% use the cortext command for the associated footnote;
+%% use the ead command for the email address,
+%% and the form \ead[url] for the home page:
+%%
+%% \title{Title\tnoteref{label1}}
+%% \tnotetext[label1]{}
+%% \author{Name\corref{cor1}\fnref{label2}}
+%% \ead{email address}
+%% \ead[url]{home page}
+%% \fntext[label2]{}
+%% \cortext[cor1]{}
+%% \address{Address\fnref{label3}}
+%% \fntext[label3]{}
+
+\title{Depth Map Upsampling Using Compressive Sensing Based Model}
+
+%% use optional labels to link authors explicitly to addresses:
+%% \author[label1,label2]{<author name>}
+%% \address[label1]{<address>}
+%% \address[label2]{<address>}
+
+\author[nlpr]{Longquan Dai}
+\ead{lqdai@nlpr.ia.ac.cn}
+
+\author[nlpr]{Haoxing Wang}
+\ead{Haox.wang@nlpr.ia.ac.cn}
+
+\author[nlpr]{Xiaopeng Zhang\corref{cor1}}
+\ead{xpzhang@nlpr.ia.ac.cn}
+
+\address[nlpr]{National Laboratory of Pattern Recognition\\ Institute of Automation Chinese Academy of Sciences\\95 Zhongguancun East Road Beijing China}
+
+\cortext[cor1]{Corresponding author. Tel./fax: +86(10) 82544696}
+
+\begin{abstract}
+%% Text of abstract
+We propose a new method to enhance the lateral resolution of depth maps with registered high-resolution color images. Inspired by the theory of Compressive Sensing (CS), we formulate the upsampling task as a sparse signal recovery problem that solves an underdetermined system. With a reference color image, the low-resolution depth map is converted into suitable sampling data (measurements). The signal recovery problem, defined in a constrained optimization framework, can be efficiently solved by variable splitting and alternating minimization. Experimental results demonstrate the effectiveness of our CS-based method: it competes favorably with other state-of-the-art methods with large upsampling factors and noisy depth inputs.
+\end{abstract}
+
+\begin{keyword}
+%% keywords here, in the form: keyword \sep keyword
+
+%% MSC codes here, in the form: \MSC code \sep code
+%% or \MSC[2008] code \sep code (2000 is the default)
+Depth map; Compressive Sensing; Upsampling;
+
+\end{keyword}
+
+\end{frontmatter}
+
+%%
+%% Start line numbering here if you want
+%%
+% \linenumbers
+
+%% main text
+\section{Introduction}
+\label{chap:intro}
+
+In recent years, a wide range of devices have been developed to measure the 3D information in the real world, such as laser scanners, structured-light systems, time-of-flight cameras and passive stereo systems. The depth maps (range images) captured with most active sensors usually suffer from relatively low resolution, limited precision and significant sensor noise. Therefore, effective depth map post-processing techniques are essential for practical applications such as scene reconstruction and 3D video production, especially for 3D face recognition~\cite{LeiBHG14} and 3D object recognition~\cite{Emanuele2013,Guo2013}.
+
+In this paper, we present a method to enhance the spatial resolution of a depth map with a registered high-resolution color image. Our method is based on two key assumptions: first, neighboring pixels with similar colors are likely to have similar depth values; second, just like most natural images, an ideal depth map without noise corruption has large smooth regions and relatively few discontinuities, and therefore can be approximated with a sparse representation in some transform domain such as multiscale wavelets. Although the first assumption has been extensively explored in recent depth post-processing work~\cite{DT05,KCLU07,YYDN07,CBTT08,HSJS10,PKTBK11}, relative less attention has been given to the second assumption~\cite{TOC11,HKD11}.
+
+Inspired by the theory of Compressive Sensing~\cite{CRT06,Donoho06}, we try to recover the upsampled depth map in a sparse signal reconstruction process. We first compute a set of measurement data from the low-resolution depth map. The measurement data near depth discontinuities are generated with a cellular automaton algorithm, and no filtering techniques are involved in the process. Then we reconstruct the depth signal in an optimization model, with constraints on measurements, smoothness and representation sparseness. An efficient numerical method is provided to solve the model with linear complexity in the number of the image pixels. Experimental results show that, by solving the problem in a CS-based framework, our algorithm can produce high quality depth results with relatively low resolution depth maps. And it shows stable performance under noisy conditions.
+
+
+The rest of the paper is organized as follows. Related work is reviewed in Section~\ref{chap:relatedwork}. Section~\ref{sec:CS} provides a brief introduction to the CS theory, whereas our CS-based upsampling model is presented in Section~\ref{chap:csmodel}. After that, in Section~\ref{chap:samplingdata}, we describe how to generate the sampling data for the model, and we provide a numerical solution in Section~\ref{chap:numericalsolution}. Section~\ref{chap:experiments} reports the experimental results and discusses how to register a low resolution depth map and its companion high resolution color image as well as the influence of sampling pattern. At last, conclusions are given in Section~\ref{chap:conclusion}.
+
+%{chap:exp} is introduced in section~\ref{chap:registration}
+
+\section{Related Work}
+\label{chap:relatedwork}
+As stated in Section~\ref{chap:intro}, the idea of enhancing a depth map with a coupled color image is not new. Existing methods can be roughly classified as either filtering-based methods~\cite{KCLU07,YYDN07,CBTT08,HSJS10} or optimization-based methods~\cite{DT05,PKTBK11}.
+
+Filtering-based methods employ color information with various edge-preserving filters~\cite{TM98,BCM05}. Kopf et al.~\cite{KCLU07} use a joint bilateral filter to refine the upsampled depth results. Yang et al.~\cite{YYDN07} instead initialize a cost volume and iteratively smooth each cost slice with a bilateral filter. Sub-pixel accuracy is achieved with an interpolation scheme. Huhle el al.~\cite{HSJS10} rely on nonlocal means filters (NLM) for depth denoising and upsampling. One advantage of filtering-based methods is that they can be easily parallelized on graphics hardware~\cite{CBTT08,HSJS10}. However, to find enough support for each pixel, large filtering kernels are often used, or the filters have to be performed iteratively, which might lead to over-smoothed depth results.
+
+The methods which are more closely related to our algorithm are the optimization-based methods~\cite{DT05,PKTBK11}. In~\cite{DT05}, Diebel and Thrun construct a two-layer Markov Random Field model for depth map upsampling. The color information of neighboring pixels is encoded as edge weights of the graph. Recently, Park et al.~\cite{PKTBK11} improve this model by including a multi-cue edge weighting scheme and an NLM energy term, which turns out to be very effective for preserving fine structures and depth discontinuities. To make the problem tractable, both methods use quadratic cost functions, which can be solved using standard numerical methods such as conjugate gradient. Our method differs from these methods in which we formulate the model with $l_{1}$ sparseness and total variation constraints, which shows the more robust behavior against noise and low sampling rates.
+
+Recently, some researchers have explored sparse representations for depth map processing~\cite{TOC11,HKD11}. To\v{s}i\'{c} el al.~\cite{TOC11} use sparse coding techniques~\cite{OF97} to learn a dictionary from Middlebury disparity data sets. This dictionary is exploited in a MRF model, which brings accuracy improvements for stereo depth estimation and range image denoising. Hawe et al.~\cite{HKD11} propose a CS-based depth estimation method from sparse measurements. They show that, by taking only $5\%$ of the disparity data as measurements, their method can recover the full disparity map with high accuracy, which is quite impressive. An essential point of their method is that the pixels lying at depth boundaries should be selected as sampling points, otherwise the reconstruction accuracy would be seriously affected. Unfortunately, such information is unavailable in our low-resolution depth inputs. We provide a novel method to generate measurements at these sampling positions with a registered reference color image, which proves crucial for the upsampling accuracy. Moreover, we employ a different CS model with   better regularization ability.
+
+\section{CS Theory and Underdetermined Linear System}
+\label{sec:CS}
+
+CS theory finds an optimal solution $\mathbf{x}^n$ from the observed data $\mathbf{y} \in \mathbb{R}^m$ by reducing the problem to solving an underdetermined linear system. In mathematical terms, the observed data $\mathbf{y}^m$ is connected to the signal $\mathbf{x}^n$ of interest via
+%
+\begin{equation}
+\Phi \mathbf{x} = \mathbf{y}
+\label{eq:linear}
+\end{equation}
+%
+where $m < n$, $x$ is the $s$-sparse vector which only has $s$ nonzero components and the measurement matrix $\Phi \in \mathbb{R}^{m \times n}$ models the linear measurement process. Traditional wisdom of linear algebra suggests that the number $m$ of measurements must be at least as large as the signal length $n$. Indeed, if $m < n$, the classical linear algebra indicates that the underdetermined linear system Eq.~\eqref{eq:linear} has infinite solutions. In other words, without additional information, it is impossible to recover $\mathbf{x}$ from $\mathbf{y}$ in the case $m < n$. However, with additional sparsity assumption, it is actually possible to reconstruct the sparse vector $x$ from underdetermined measurements $\mathbf{y} = \Phi \mathbf{x} $ because many real-world signals are sparse. Even though they are acquired with seemingly too few measurements, exploiting sparsity enables us to solve the resulting underdetermined systems of linear equations. More importantly, there are many efficient algorithms for the reconstruction~\cite{Figueiredo_2007_TIP,Hale_2008_SIOPT,Wang_2010_SIIMS}.
+
+
+Specifically, CS theory reconstructs $\mathbf{x}$ as a solution of following combinatorial optimization problem
+%
+\begin{equation}
+\begin{split}
+& \min_{\mathbf{x}} \| \mathbf{x} \|_0 \\
+& s.t. \quad \Phi \mathbf{x} = \mathbf{y}
+\end{split}
+\end{equation}
+%
+where $\| \mathbf{x} \|_0$ denotes the number of nonzero entries of a vector. However, the minimization problem is nonconvex and NP-hard. It thus is intractable for a modern computer. An alternative method is $\ell_1$ minimization, which can be interpreted as the convex relaxation $\ell_0$ minimization.
+%
+\begin{equation}
+\begin{split}
+& \min_\mathbf{x} \| \mathbf{x} \|_1 \\
+& s.t. \quad \Phi \mathbf{x} = \mathbf{y}
+\end{split}
+\label{eq:l1}
+\end{equation}
+%
+One major shortcoming of above considerations is that they do not carry over to the complex setting such as the contaminated measurements $\mathbf{y}$. As a remedy, we can directly extend the $\ell_1$ minimization~\eqref{eq:l1} to a more general $\ell_1$ minimization taking measurement error into account, namely,
+%
+\begin{equation}
+\begin{split}
+& \min_\mathbf{x} \| \mathbf{x} \|_1 \\
+& s.t. \quad \| \Phi \mathbf{x} - \mathbf{y} \|_2^2 \leq \epsilon
+ \end{split}
+\label{eq:l1_general}
+\end{equation}
+%
+It is worth noting that the solution of Eq.~\eqref{eq:l1_general} is strongly linked to the output of the $\ell_1$ denoising, which consists in
+solving, for some parameter $\beta \geq 0$
+%
+\begin{equation}
+\min_\mathbf{x} \beta \| \mathbf{x} \|_1 + \frac{1}{2} \| \Phi \mathbf{x} - \mathbf{y} \|_2^2
+\end{equation}
+%
+
+Expecting Eq.~\eqref{eq:l1} can restore any $\mathbf{x}$ for any $\Phi$ is unreasonable. Instead, CS theory only proves that for any integer $n > 2s$, there exists a measurement matrix $\Phi \in \mathbb{R}^{m \times n}$ with $m = 2s$ rows such that every $s$ sparse vector $\mathbf{x} \in \mathbb{R}^{n}$ can be recovered from its measurement vector $\mathbf{y} \in \Phi \mathbf{x} $ as a solution of Eq.~\eqref{eq:l1}. However, finding out the measurement matrix $\Phi$ is a remarkably
+intriguing endeavor. To date, it is still an open problem to construct explicit matrices
+which are provably optimal in a compressive sensing setting. One novelty of the work is just providing a method to construct the measurement matrix $\Phi$ for depth upsampling.
+
+The depth upsampling problem can be reduced to the problem of using the underdetermined linear system Eq.~\eqref{eq:linear} to find an optimal solution $\mathbf{x}^n$ from few measurements $\mathbf{y}^m$ because depth upsampling aims to restore a high-resolution depth map from a low-resolution depth map and the values of the low-resolution depth map can be viewed as the samplers of the high-resolution depth map. Unfortunately, depth maps are not usually sparse in the canonical (pixel) basis. But they are often sparse after a suitable transformation, for instance, a wavelet transform or discrete cosine transform. This means that we can write $\mathbf{x} = \Psi \mathbf{z}$, where $\mathbf{z}^n$ is a sparse vector and $\Psi^{n \times n}$ is a unitary matrix representing the transform. Recalling $\mathbf{y} = \Phi \mathbf{x}$, depth upsampling finds a solution $\mathbf{x} = \Psi^T \mathbf{z}$ from the underdetermined linear system Eq.~\eqref{eq:linear_upsampling}.
+%
+\begin{equation}
+\Phi \Psi^T \mathbf{z} = \mathbf{y}
+\label{eq:linear_upsampling}
+\end{equation}
+%
+
+Obviously, the underdetermined linear system~\eqref{eq:linear_upsampling} is similar to the underdetermined linear system~\eqref{eq:linear} and the similarity leads us to guess that CS theory also deals with this kind of underdetermined linear system. Indeed, studying Eq.~\eqref{eq:linear_upsampling} is the origin of CS theory. Without any doubt, CS theory can efficiently solve it~\cite{CRT06,Donoho06,CW08} by using the optimization problem~\eqref{eq:l1}.
+
+\section{CS-based Upsampling Model}
+\label{chap:csmodel}
+
+We build our upsampling model upon a fundamental fact that many signals can be represented or approximated with only a few coefficients in a suitable basis.
+Consider a high-resolution depth map $\mathbf{d}\in{\mathbb{R}}^{n}$ in column vector form, it can be linearly represented with an orthonormal basis $\Psi\in{\mathbb{R}}^{n\times n}$ and a set of coefficients $\mathbf{x}\in{\mathbb{R}}^{n}$: $\mathbf{d} = \Psi\mathbf{x},\mathbf{x}=\Psi^{T}\mathbf{d}$. The map $\mathbf{d}$ is linearly measured $m$ times ($m\ll n$), which leads to a set of measurements $\mathbf{y}\in{\mathbb{R}}^{m}$ with a measurement matrix $\Phi\in{\mathbb{R}}^{m\times n}$: $\mathbf{y}=\Phi\mathbf{d}$. The CS theory tries to recover depth map $\mathbf{d}$ from measurements $\mathbf{y}$ with the sparsest vector $\mathbf{x}$:
+\begin{equation}
+\begin{split}
+\label{eq:cs_l0}
+&\min_{\mathbf{d}}{{\|\Psi^{T}\mathbf{d}\|}_{0}} \\
+&s.t. \quad \mathbf{y} = \Phi\mathbf{d}
+\end{split}
+\end{equation}
+This $l_{0}$ minimization problem is known to be NP-hard even for approximate solutions~\cite{Muthu05}. If ${{\|.\|}_{0}}$ is approximated with a convex term ${{\|.\|}_{1}}$, the resulting problem can be posed as a linear program~\cite{CDS98}. For practical applications, the measurement constraints are usually relaxed due to additive noise. These approximations lead to the following $l_{1}$ regularization problem:
+\begin{equation}
+\begin{split}
+\label{eq:cs_l1}
+&\min_{\mathbf{d}}{{\|\Psi^{T}\mathbf{d}\|}_{1}} \\
+&s.t \quad {\|\mathbf{y} - \Phi\mathbf{d}\|}_{2} <\epsilon
+\end{split}
+\end{equation}
+where $\epsilon$ is a bound for the underlying noise.
+
+Sparsity as a prior could not guarantee that Eq.~\eqref{eq:cs_l1} could produce regularized results as it can only help us identify a solution from the infinite possible solutions of the underdetermined linear system~\eqref{eq:linear_upsampling}. Fig~\ref{fig:cs_l1} shows the upsampled result produced by Eq.~\eqref{eq:cs_l1}. We can observe that the depth surfaces suffer from fluctuation artifacts which significantly lower the upsampling quality. To solve the problem, we incorporate an additional total variation (TV) term for smoothing the depth map while still preserving discontinuities. The TV term is defined in $l_{1}$ norm:
+\begin{equation}
+\label{eq:tv_l1}
+{\|\mathbf{d}\|}_{TV}= \sum_{i=1}^{n}{(|\nabla_{h}(\mathbf{d}(i))|+|\nabla_{v}(\mathbf{d}(i))|)}
+\end{equation}
+where $\nabla_{h},\nabla_{v}$ denote the local horizontal and vertical gradients for pixel $\mathbf{d}(i)$ respectively. In practice, we find that $l_{1}$ norm TV (also known as anisotropic TV~\cite{GO09}) produces sharper boundaries than $l_{2}$ norm for our data sets. After adding this term to the objective function in Eq.~\eqref{eq:cs_l1}, we convert our final model into the following unconstrained optimization problem:
+\begin{equation}
+\label{eq:cs_model}
+\min_{\mathbf{d}}{\alpha{\|\mathbf{d}\|}_{TV}+\beta{\|\Psi^{T}\mathbf{d}\|}_{1}}+\frac{1}{2}{\|\mathbf{y} - \Phi\mathbf{d}\|}_{2}^{2}
+\end{equation}
+where parameters $\alpha,\beta$ control the weights of the two regularization terms. The regularized result of Eq.~\eqref{eq:cs_model} is demonstrated in Fig~\ref{fig:cs_model}. Compared with the result of Eq.~\eqref{eq:cs_l1}, the nasty artifacts are  removed entirely and therefore the depth surfaces in Fig~\ref{fig:cs_model} are rather satisfactory.
+
+\begin{figure}
+\centering
+\begin{subfigure}[b]{0.32\linewidth}
+\includegraphics[width=\textwidth]{poster.png}
+\caption{Ground truth}
+\end{subfigure}
+\begin{subfigure}[b]{0.32\linewidth}
+\includegraphics[width=\textwidth]{poster_1.png}
+\caption{Eq.~\eqref{eq:cs_l1}'s result}
+\label{fig:cs_l1}
+\end{subfigure}
+\begin{subfigure}[b]{0.32\linewidth}
+\includegraphics[width=\textwidth]{poster_2.png}
+\caption{Eq.~\eqref{eq:cs_model}'s result}
+\label{fig:cs_model}
+\end{subfigure}
+\caption{The upsampling results of Eq.~\eqref{eq:cs_l1}~\eqref{eq:cs_model}. (a) is the ground truth. (b) demonstrates the 8X upsampling result of Eq.~\eqref{eq:cs_l1}. (c) shows the 8X upsampling result of Eq.~\eqref{eq:cs_model}. Compared (c) with (b), we can observe that there are nasty artifacts on the depth surfaces of (b). }
+\end{figure}
+
+For $\Psi$ and $\Phi$, we follow the patterns defined in ~\cite{HKD11}: $\Psi$ represents a Daubechies Wavelet basis, while $\Phi$ samples the high-resolution depth map with canonical pixel basis. The term $\Phi$ is important for our depth upsampling application as $\Phi$ should satisfy the minimum measurement requirement~\cite{CR07} deduced from CS theory.  Strictly speaking, CS theory could not be directly applied to our model without mathematical proofs because we add an extra TV term to the standard CS model and thus our CS-based upsampling model~\eqref{eq:cs_model} does not coincide with the standard CS model. However, we find that our CS-based upsampling model shares the similar behavior with the standard CS model because both of them solve the underdetermined linear system. Thus the factors that influence the final results of the standard CS model should also influence the resulting quality of our CS-based upsampling model. In the sequel, we will conduct experiments to verify the assumption and employ the conclusions of CS theory to discuss how to construct a satisfactory $\Phi$ for accurate recovery.
+
+
+\section{Sampling Data Generation}
+\label{chap:samplingdata}
+
+This section describes how to construct the measurement matrix $\Phi$ used for depth upsampling (\ie how to generate the sampling data from a low-resolution depth map $D_{l}$ and a registered high-resolution color image $I_{h}$) as the measurement matrix $\Phi$ is a specific matrix that should satisfy the minimum measurement requirements. In the following paragraphs, the sampling position information is denoted as a mask image $M_{h}$. If the pixel $(i,j)$ is selected as a sampling point, $M_{h}(i,j)=1$; otherwise $M_{h}(i,j)=0$. The sampling values are stored in a high resolution depth map $D_{h}$. Note that $D_{h}$ is used for sampling purpose only, and it is not the final output of our upsampling algorithm. The measurement matrix $\Phi$ and the measurements $\mathbf{y}$ can be easily constructed from $M_{h}$ and $D_{h}$. Without losing any generality, the upsampling factor for both horizontal and vertical directions is set as $U$. A pixel $(i,j)\in D_{l}$ corresponds to a $U\times U$ patch in the high resolution image space.
+
+\subsection{Minimal Number of Measurements}
+\label{chap:measurements}
+
+Both the compressive sensing problem Eq.~\eqref{eq:linear} and our depth upsampling problem Eq.~\eqref{eq:linear_upsampling} consist in reconstructing an $s$-sparse vector from an underdetermined linear system. Although the sparsity assumption hopefully helps
+in identifying the original vector, it is unreasonable to expect that we can restore original vector from the observed measurements with arbitrary number. Indeed, there is a lower bound for the number of measurements. In other words, the number of measurements must be greater than the minimal number of measurements; otherwise, no one could identify the original vector. More importantly, the lower measurement number implies the larger upsampling rates for depth upsampling.
+
+In literature, CS theory has proved that the mutual coherence $\mu(\Phi, \Psi)$ between the sensing matrix $\Phi$ and the representation basis $\Psi$ determines the minimal number of measurements and $\mu(\Phi, \Psi) \in [1, \sqrt{n}]$.
+%
+\begin{equation}
+\mu(\Psi, \Phi) = \sqrt{n} \cdot \max_{1 \leq k, j \leq n} \left |  \left \langle  \psi_k, \phi_j \right \rangle \right|
+\end{equation}
+%
+
+Then, for a fixed signal $f^n \in \mathbb{R}^n$ whose coefficients are at most $S$ nonzero entries in the basis $\Psi$, the CS theory~\cite{CW08} guarantees that select $m$ measurements in the $\Phi$ domain uniformly at random; if
+\begin{equation}
+m \geq C \cdot \mu^2(\Psi, \Phi) \cdot S \cdot \log n
+\label{eq:prob1}
+\end{equation}
+for some positive constant $C$, the solution of compressive sensing is exact with
+overwhelming probability. More specifically, it is shown that the probability of success exceeds $1 - \delta$ if
+\begin{equation}
+m \geq C \cdot \mu^2(\Psi, \Phi) \cdot S \cdot \log(\frac{n}{\delta})
+\label{eq:prob2}
+\end{equation}
+%where $\mu(\Psi, \Phi) = \sqrt{n} \cdot \max_{1 \leq k, j \leq n} \left |  \left \langle  \psi_k, \phi_j \right \rangle \right| $ is the mutual coherence between $\Psi$ and $\Phi$.
+At last, we note that both the lower bound and the restoration quality for  our depth upsampling problem are determined by the sensing partner of the sensing matrix $\Phi$ as the representation basis $\Psi$ are selected as the Daubechies Wavelet basis in advance.
+
+To fight against the high mutual coherence between the measurement matrix $\Phi$ and orthogonal representation bases $\Psi$~\cite{DH01}, it is natural and reasonable to randomly map the depth values of low resolution depth map $D_{l}$ into the high resolution depth map $D_{h}$. Specifically speaking, in depth upsampling situation, a pixel $(i,j)\in D_{l}$ corresponds to a $U\times U$ patch in $D_{h}$. From this patch, we randomly select one sample with uniform distribution, and set their $M_{h}$ values to $1$ as follows:
+\begin{equation}
+D_{h}(i*U+s,j*U+t)=D_{l}(i,j) \quad s,t=1,\cdots,U
+\label{eq:random}
+\end{equation}
+
+
+\subsection{Our Sampling Method}
+\label{sec:sampling_method}
+
+Although the random sampling scheme could reduce the mutual coherence and therefore decreases the lower bound of measurements, the sampling scheme could not keep depth edges in the high resolution depth map as sharp as depth edges in the low resolution depth map. Instead, we manually select pixels around depth discontinuities as sampling data points and add random sampling positions in the homogeneous region to decrease the mutual coherence $\mu(\Psi, \Phi)$. As discussed previously, this procedure is essential for the accuracy of the model. Since depth borders are not known before upsampling, we will infer their positions and the corresponding measurements with the auxiliary information of the registered color photo.
+%and present the details of this procedure in the next section.
+
+
+We first detect homogeneous regions and border regions in the original depth map $D_{l}$ with a simple thresholding scheme. A pixel $\mathbf{p}=(i,j)\in D_{l}$ is classified as `homogenous' if its depth value $D_{l}(\mathbf{p})$ satisfies the following condition, otherwise it falls into the `border' region:
+\begin{equation}
+\label{eq:regiondetection}
+|D_{l}(\mathbf{p})-D_{l}(\mathbf{q})|<\lambda , \quad \forall \mathbf{q}\in N(\mathbf{p})
+\end{equation}
+where $N(\mathbf{p})$ is the $4$-connected neighborhood of pixel $\mathbf{p}$, and $\lambda$ is a depth threshold value. We then map this region information to the high resolution image space. $M_{h},D_{h}$ in homogeneous and border regions are computed successively. Our sampling method is quite different from Hawe et al.'s work~\cite{HKD11}. Their method relies on intensity edges for border detection, since no depth information is available. We instead use $D_{l}$ for rough region detection, and then incorporate edge information to compute $M_{h}$ and $D_{h}$ only in border regions, which helps to distinguish intensity edges and actual depth borders.
+
+The procedure described above works well for small or moderate upsampling factors. However, when $U$ reaches $16$ or even larger, the generated sampling points would be too sparse in the high resolution image space to meet the minimum measurement requirements~\cite{CR07}. We provide a simple hierarchical solution for large upsampling factors. Large $U$ is decomposed into a set of small factors: $U=U_{1}\times U_{2}\cdots U_{m}$. Then, starting from the low resolution depth map, the sampling data generation process is performed $m$ times with small factors to get the final high resolution $M_{h}$ and $D_{h}$. In practice, $U = 16$ are decomposed as $4\times4$ respectively, such that the number of the times $m$ is kept as low as possible.
+
+\subsubsection{Sampling Homogeneous Regions}
+\label{chap:samplingdata1}
+
+\begin{figure}[t]
+\centering
+\includegraphics[width=\linewidth]{fig_seed_2.pdf}
+\caption{An illustration of the sampling data generation process for homogeneous regions. Each pixel in the low resolution depth map (left image) corresponds to a $2 \times 2$ patch in the high resolution depth map (right image), where the pixels with the same color on either side denote the one-to-one mapping. The red color pixels in each patch are randomly chosen and we assign the corresponding depths in the low resolution depth map to them.}
+\label{fig:homo_sampling_illustraion}
+\end{figure}
+
+For a homogenous pixel $(i,j)\in D_{l}$, its depth value is directly mapped to a $U\times U$ homogenous patch in $D_{h}$ as follows:
+\begin{equation}
+\label{eq:homogenouse}
+D_{h}(i*U+s,j*U+t)=D_{l}(i,j) \quad s,t=1,\cdots,U
+\end{equation}
+%
+From this patch, we randomly select one or several samples with uniform distribution, and set their $M_{h}$ values to $1$. As stated in~\cite{DH01}, this random selection helps to lower the mutual coherence between $\Psi$ and $\Phi$. 
+
+Fig~\ref{fig:homo_sampling_illustraion} shows the sampling data generation process for homogeneous regions. We can observe that each pixel in the low resolution depth map (left image) corresponds to a $2 \times 2$ patch in the high resolution depth map (right image), where the pixels with the same color on either side denote the pixel-patch mapping. In the data generation process, we randomly chose a red pixel in each patch and assign the corresponding depth in the low resolution depth map to it.
+
+\subsubsection{Sampling Border Regions}
+\label{chap:samplingdata2}
+
+For border pixels in $D_{l}$, their depth values are not reliable due to the downsampling process, and directly mapping these pixels to $D_{h}$ would introduce significant sampling errors. We instead try to fill these regions in $D_{h}$ with homogenous depth values computed in the previous step. The color image $I_{h}$ should be considered in the filling process. This problem can be posed as an inpainting problem with a reference color image, and it shares some similarities with the occlusion handling problem in traditional stereo depth estimation~\cite{WJYG08}.
+
+Here, we provide a border region filling method based on the classic Cellular Automata (CA)~\cite{Neumann66}. CA usually works on a regular grid of cells, with finite states and local transition rules, which are suitable for many image processing applications~\cite{PP02}. In mathematical terms, a cellular automaton is a triplet $A = (S, N, \delta)$, where $S$ is a non-empty state set. $N$ is the neighborhood system, and $\delta: \ S^{N} \longrightarrow S$ is the local transition function. This function defines the rule of calculating the cell's state at $t+1$ time step, given the states of the neighborhood cells at previous time step $t$.
+Our solution is based on the CA model proposed by Vezhnevets and Konouchine~\cite{VK05}. Their model can propagate two labels to the full image. We employ this model for depth propagation and extend the local transition rules to respect the color distribution and the edges in $I_{h}$, such that the propagation doesn't generate incorrect depth boundaries. Specifically, for each pixel $\mathbf{p}$, our method stores a four state variable $S_{\mathbf{p}}=(D_{\mathbf{p}}, \Theta_{\mathbf{p}}, \overrightarrow{C}_{\mathbf{p}},E_{\mathbf{p}})$, where $D_{\mathbf{p}}$ denotes the depth of pixel $\mathbf{p}$, $\Theta_{\mathbf{p}}$ is the `transition strength' of pixel $\mathbf{p}$, $\overrightarrow{C}_{\mathbf{p}}$ stands for the feature vector of pixel $\mathbf{p}$ (\ie the three dimensional vector of pixel $\mathbf{p}$'s color of $I_{h}$ ) and $E_{\mathbf{p}}$ records $I_{h}$ color edges detected by Canny filter. Without loss of generality, we assume $\Theta_{\mathbf{p}}$ is bounded to $[0,1]$.
+
+Initially, we assign $\Theta_{\mathbf{p}}=1$ for all the pixels with valid depth values, otherwise $\Theta_{\mathbf{p}}=0$. Moreover, if $\mathbf{p}$ lies on a color edge, $E_{\mathbf{p}}=1$, otherwise $E_{\mathbf{p}}=0$. After initialization, we collect all the pixels in the border regions as a set $P$. The CA-based region filling algorithm updates $S_{\mathbf{p}}(\forall \mathbf{p}\in P)$ in an iterative manner according to the rules listed in Algorithm~\ref{alg:ca} which renews $S_{\mathbf{p}}$ from time $t$ to $t+1$, where $f$ is a monotone decreasing function bounded to [0,1]:
+%
+\begin{equation}
+\label{eq:f}
+f(\overrightarrow{C}_{\mathbf{p}_1},\overrightarrow{C}_{\mathbf{p}_2})=1-\frac{{\|\overrightarrow{C}_{\mathbf{p}_1}-\overrightarrow{C}_{\mathbf{p}_2}\|}_{2}}{\sqrt{3}}
+\end{equation}
+
+
+\begin{algorithm}[tb] %�㷨�Ŀ�ʼ
+\renewcommand{\algorithmicrequire}{\textbf{Input:}}
+\renewcommand\algorithmicensure {\textbf{Output:} }
+\caption{CA-based Border Region Filling Algorithm} %�㷨�ı���
+\label{alg:ca} %���㷨һ����ǩ���������������ж��㷨������
+\begin{algorithmic}[1] %����1 ��ʾÿһ�ж���ʾ����
+\REQUIRE ~~\\ %�㷨������������Input
+State variables $S^t$
+\ENSURE ~~\\ %�㷨��������Output
+State variables $S^{t+1}$\\
+\FOR {$\forall \mathbf{p} \in P$}
+    \STATE $D_{\mathbf{p}}^{t+1}=D_{\mathbf{p}}^{t}$
+    \STATE $\Theta_{\mathbf{p}}^{t+1}=\Theta_{\mathbf{p}}^{t}$
+    \FOR {$\forall \mathbf{q} \in N(\mathbf{p})$}
+            \IF {$E_\mathbf{p}==0$ and $E_\mathbf{q}==1$}
+            \STATE continue
+            \ENDIF
+            \IF {$f(\overrightarrow{C}_{\mathbf{p}},\overrightarrow{C}_{\mathbf{q}})\cdot \Theta^t_{\mathbf{q}}>\Theta^t_{\mathbf{p}}$}
+                \STATE $D_{\mathbf{q}}^{t+1}=D_{\mathbf{p}}^{t}$
+                \STATE $\Theta_\mathbf{q}^{t+1}=f(\overrightarrow{C}_{\mathbf{p}},\overrightarrow{C}_{\mathbf{q}})\cdot \Theta^t_{\mathbf{q}}$
+            \ENDIF
+    \ENDFOR
+\ENDFOR
+\RETURN $S^{t+1}$ %�㷨�ķ���ֵ
+\end{algorithmic}
+\end{algorithm}
+
+
+In each iteration, the transition strength $\Theta_{\mathbf{p}}$ is updated with the neighboring color information. The pixels lying on intensity edges are only allowed to propagate depth information along the edge (Line $5-7$ in Algorithm~\ref{alg:ca}). When no more pixel changes its state in the iteration, the algorithm stops, and the output state variables are used to update $D_{h}$ and $M_{h}$. The pixels in $P$ lying at color edges (\ie the pixel $ \mathbf{p} \in E = \{\mathbf{p} \ | \ E_{\mathbf{p}}=1 \}$) are all selected as sampling points. Then the subset $P - \{\mathbf{p} \ | \ E_{\mathbf{p}}=0 \}$ of the remaining pixels are randomly selected with a uniform distribution.
+
+Using biological metaphor, the pseudocode listed above has an intuitive explanation. Since the depth values are discrete and have $L$ different quantization levels, we can treat the depth assigning process which diffuses the depths from interpolating seeds to interpolated pixels as
+growth and struggle for domination of $L$ types of bacteria. The culture media is limited to the border regions $P$. The bacteria start to spread from the seed pixels and try to occupy all the border regions $P$. We define the battlefront of different bacteria types as the pixel set $E$ and constrain that the warriors in the battlefront should not escape from the battlefield and invade the region of other bacteria types (\ie the if statement $E_\mathbf{p}==0$ and $E_\mathbf{q}==1$ in the pseudocode does). At each step, each bacteria $\mathbf{p}$ tries to attack its neighbors $N(\mathbf{p})$. The attack force is defined by the attacker's transition strength $\Theta_\mathbf{p}$ and the distance between the feature vectors $\overrightarrow{C}_{\mathbf{p}_1},\overrightarrow{C}_{\mathbf{p}_2}$ of attacker and defender. If the attack force is greater than defender's strength, the defending pixel is conquered and its depth and strength are changed. The result of these local competitions is that the strongest bacteria occupy the neighboring sites and gradually spread over the border regions $P$.
+
+
+An illustrative example of our border regions sampling method is given in Fig~\ref{fig:sampling_illustraion}. As we stated above, a pixel in the low resolution depth map corresponds to a patch in the high resolution depth map according to the pixel-patch mapping used in Fig~\ref{fig:homo_sampling_illustraion}. Hence, only using the depth edge information of the low resolution depth map, we could not accurately determine  depth edges in the high resolution depth map. Instead, we detect depth edges in the low resolution depth map and map them into the high resolution depth map. In this way, we are able to locate the border regions which indicate the possible location of depth edges in the high resolution depth map. Note that the depths in the depth edges of the low resolution depth map are neglect because they are not as reliable as the nearest depths in the homogeneous region to determine the depths in the border region. Therefore, we employ the nearest depths in the homogeneous region and our CA-based border region filling algorithm to fill the depths in the border regions. Fig~\ref{fig:sampling_illustraion} just shows this sampling data generation process for border regions. 
+
+
+\begin{figure}[t]
+\centering
+\includegraphics[width=0.45\textwidth]{fig_sampling_illustration.pdf}
+\caption{An illustration of the sampling data generation process for border regions. In the sampling data generation process, we map the border region in the low resolution depth map to the high resolution depth map according to the pixel-patch mapping used in Fig~\ref{fig:homo_sampling_illustraion}. At the meanwhile, the nearest depths for depth edges in the low resolution depth are also mapped into the high resolution depth map and form the nearest depths for depth edges in the high resolution depth. By choosing these depths as seeds, our CA-based border region filling algorithm is able to interpolate the depths in the border region satisfactorily.}
+\label{fig:sampling_illustraion}
+\end{figure}
+
+\section{Numerical Solution}
+\label{chap:numericalsolution}
+In this section, we provide a first-order numerical solution for the optimization problem defined in Eq.~\eqref{eq:cs_model}. A major difficulty in minimizing Eq.~\eqref{eq:cs_model} is that both the TV term and the sparseness term are non-differential $l_{1}$ regularizes. We decompose the original problem into three subproblems with variable-splitting and quadratic penalty techniques. For each subproblem, efficient solution is available. Therefore, the original problem can be solved in an alternating minimization framework~\cite{WYYZ08}.
+
+We introduce two auxiliary vectors $\mathbf{u},\mathbf{v}\in{\mathbb{R}}^{n}$, such that $\mathbf{d}$ can be decoupled from the two terms:
+\begin{equation}
+\begin{split}
+\label{eq:numerical_1}
+&\min_{\mathbf{d},\mathbf{u},\mathbf{v}}{\alpha{\|\mathbf{u}\|}_{TV}+\beta{\|\mathbf{v}\|}_{1}}+\frac{1}{2}{\|\mathbf{y} - \Phi\mathbf{d}\|}_{2}^{2} \\
+&s.t. \quad \mathbf{u}=\mathbf{d},\mathbf{v} = \Psi^{T}\mathbf{d}
+\end{split}
+\end{equation}
+Problem~\eqref{eq:numerical_1} is hard to solve. We use following unconstrained optimization Problem~\eqref{eq:numerical_2}, which includes two quadratic penalty terms to Problem~\eqref{eq:numerical_1}, to approximate the original problem.
+\begin{equation}
+\label{eq:numerical_2}
+\min_{\mathbf{d},\mathbf{u},\mathbf{v}}{\alpha{\|\mathbf{u}\|}_{TV}+\frac{\alpha\gamma}{2}{\|\mathbf{u}-\mathbf{d}\|}^2+\beta{\|\mathbf{v}\|}_{1}}+\frac{\beta\delta}{2}{\|\mathbf{v}-\Psi^{T}\mathbf{d}\|}^2+\frac{1}{2}{\|\mathbf{y} - \Phi\mathbf{d}\|}_{2}^{2}
+\end{equation}
+where parameter $\gamma$ and $\delta$ control the approximation penalty for $\mathbf{u}$ and $\mathbf{v}$ respectively.
+
+Problem~(\ref{eq:numerical_2}) can be solved in an alternating minimization framework as follows:
+\begin{enumerate}
+\item For fixed $\mathbf{v},\mathbf{d}$, solve the subproblem for $\mathbf{u}$:
+\begin{equation}
+\label{eq:numerical_3}
+\min_{\mathbf{u}}{\|\mathbf{u}\|}_{TV}+\frac{\gamma}{2}{\|\mathbf{u}-\mathbf{d}\|}^2
+\end{equation}
+This is a typical anisotropic TV problem, which can be efficiently solved with a Split Bregman algorithm from~\cite{GO09}.
+\item For fixed $\mathbf{u},\mathbf{d}$, solve the subproblem for $\mathbf{v}$:
+\begin{equation}
+\label{eq:numerical_4}
+\min_{\mathbf{v}}{{\|\mathbf{v}\|}_{1}}+\frac{\delta}{2}{\|\mathbf{v}-\Psi^{T}\mathbf{d}\|}^2_{2}
+\end{equation}
+The problem is well studied in CS literature. Using the simple one-dimensional shrinkage operator, we can directly write down its analytic solution.
+\begin{equation}
+\label{eq:numerical_solution_4}
+\mathbf{v} = \max{(\Psi^{T}\mathbf{d}-\frac{1}{\delta},0)}\text{sgn}(\Psi^{T}\mathbf{d})
+\end{equation}
+\item Finally, for fixed $\mathbf{u},\mathbf{v}$, solve the subproblem for $\mathbf{d}$:
+\begin{equation}
+\label{eq:numerical_5}
+\min_{\mathbf{d}}\frac{\alpha\gamma}{2}{\|\mathbf{u}-\mathbf{d}\|}^2+\frac{\beta\delta}{2}{\|\mathbf{v}-\Psi^{T}\mathbf{d}\|}^2+\frac{1}{2}{\|\mathbf{y} - \Phi\mathbf{d}\|}_{2}^{2}
+\end{equation}
+This least square problem promises a closed-form solution:
+\begin{equation}
+\label{eq:numerical_solution_5}
+\mathbf{d} = K(\alpha\gamma\mathbf{u}+\beta\Psi\mathbf{v}+\mathbf{y})
+\end{equation}
+where $K={(\alpha\gamma I + \beta\delta I + \Phi^{T}\Phi)}^{-1}$ is a diagonal matrix.
+\end{enumerate}
+Step 1-3 are iteratively performed until the algorithm converges. For our upsampling problem on $1390\times1110$ images, stable results can be efficiently achieved within $200$ iterations.
+
+
+\section{Experiments}
+\label{chap:experiments}
+
+In this section, we first describe a preprocessing step to register the depth camera and conventional camera as the procedure is an essential step for following experiments. Second, the experiments' parameter configuration and the evaluation index are presented. After that, we compare the upsampling results of different sensing patterns and discuss the functions of different terms in Eq.~\eqref{eq:cs_model}. Last but not least, we conduct extensive experiments, including the synthesized data and the real world date, to illustrate the upsampling ability of our method.
+
+\subsection{Depth Map Registration}
+\label{chap:registration}
+Depth maps and theirs companion color images are captured by different cameras, thus they do not registered well in reality. Let $\mathbf{X}_d = (X,Y,Z,1)$ denote the 3D homogeneous coordinates of the pixels of a depth map, and $\mathbf{X}_c = (r,c,1)$ represent the 2D homogeneous coordinates of the companion high-resolution RGB image of the depth map. We have the following projection relationship about $\mathbf{X}_d$ and $\mathbf{X}_c$:
+
+\begin{equation}
+\mathbf{X}_c = sK \begin{bmatrix} \quad R &| & t \quad \end{bmatrix} \mathbf{X}_d
+\label{eq:trans}
+\end{equation}
+where $s$ is a scale factor, $K$ is the intrinsic parameters of the
+optical camera, $R$ and $t$ are the rotation and translation matrix which describe the rotation and translation of the optical camera and the depth camera.
+
+We can use the well-known calibration method introduced by Zhang~\cite{Zhang2000} to calibrate the parameters of the two cameras. However, the depth camera could not capture textures as the RGB camera does. Instead of using the traditional visible textures, we can use a planar calibration pattern which consists of holes for the reason that these holes can be captured by both cameras. A similar method has been used by Park et al.~\cite{PKTBK11} to register depth maps and color images too. For the two calibrated cameras, we can project any points $\mathbf{X}_d$ which are on the low-resolution depth map onto the high-resolution RGB image by using Eq.~\eqref{eq:trans}. In this situation, the scaling term $s$ is the relative resolution between the depth camera and the optical camera, in other words, it is the upsampling rate. For any point $x_t$ which is on the low-resolution depth map with depth value $d_t$, we can transform the local coordinate of the depth camera $[x_t, d_t, 1]^T$ into the world coordinate $\mathbf{X}_d$ by the following equation:
+
+\begin{equation}
+\mathbf{X}_d = P^{-1}_t \begin{bmatrix} x_t & d_t & 1\end{bmatrix}^T
+\end{equation}
+where $P^{-1}_t$ is the inverse of the $4 \times 4$ projective transformation $P_t$ which converts the world coordinate $\mathbf{X}_d $ into the local coordinate $\begin{bmatrix} x_t & d_t & 1\end{bmatrix}^T$ of the depth camera.
+
+
+
+\subsection{Parameter Configuration and Evaluation Index}
+\label{chap:exp}
+
+\begin{figure}[t]
+\centering
+\begin{subfigure}[t]{0.485\linewidth}
+\includegraphics[width=\linewidth]{bull_color.png}
+\caption{Guided color image}
+\end{subfigure}
+\begin{subfigure}[t]{0.485\linewidth}
+\includegraphics[width=\linewidth]{bull_depth.png}
+\caption{Ground truth}
+\end{subfigure}
+
+\begin{subfigure}[t]{0.32\linewidth}
+\includegraphics[width=\linewidth]{mask_grid.png}
+\end{subfigure}
+\begin{subfigure}[t]{0.32\linewidth}
+\includegraphics[width=\linewidth]{mask_random.png}
+\end{subfigure}
+\begin{subfigure}[t]{0.32\linewidth}
+\includegraphics[width=\linewidth]{mask_hybrid.png}
+\end{subfigure}
+
+\begin{subfigure}[t]{0.32\linewidth}
+\includegraphics[width=\linewidth]{recon_grid.png}
+\caption{Uniform sampling}
+\label{fig:grid}
+\end{subfigure}
+\begin{subfigure}[t]{0.32\linewidth}
+\includegraphics[width=\linewidth]{recon_random.png}
+\caption{Random sampling}
+\label{fig:random}
+\end{subfigure}
+\begin{subfigure}[t]{0.32\linewidth}
+\includegraphics[width=\linewidth]{recon_hybrid.png}
+\caption{Ours}
+\label{fig:hybrid}
+\end{subfigure}
+\caption{Sampling Pattern for 8X upsampling. (a) and (b) exhibit the guidance image and ground truth respectively. (c) demonstrates the uniform sampling. (d) illustrates the random sampling. (e) shows our sampling pattern. The sampling number is the same for the three distributions. We can observe that the restoration quality is very different.}
+\end{figure}
+
+In the sequent experiments, we quantitatively test our algorithm on the Middlebury stereo datasets~\cite{HS07}, which provide both high resolution color images and ground truth depth maps, as well as the well-known KITTI Vision Benchmark Suite. Specifically, for the synthesized experiments illustrated in Section~\ref{chap:Middlebury}, we use `Books', `Dolls', `Moebius' and `Plastic' images of the Middlebury datasets whereas we randomly choose three depth images from the KITTI Vision Benchmark Suite to perform real data upsampling. The test platform is a PC with Intel i$5$ $2.8$GHz CPU and 4GB memory. The upsampling performance of our method is rather stable when $\lambda,\alpha,\beta,\gamma,\delta$ are in the ranges $[2,5], [0.5, 2], [0.5, 1.5], [25, 35], [25, 35]$, respectively. For convenience, we consistently keep the parameter setting $\lambda,\alpha,\beta,\gamma,\delta$ of all the data sets used in the experiments unchanged, where  $\lambda=4.0,\alpha=1.0,\beta=1.0,\gamma=32.0,\delta=32.0$. The upsampling factor $U$, in our experiments, varies from $2$X to $16$X, which covers the resolution range for most depth sensors. For a given factor $U$, the ground truth depth map is downsampled by $U$ to create the input depth data.
+
+For performance evaluation, we need to explain the meaning of getting a satisfactory result with a high probability because CS theory only guarantees that we have a high probability (refer to Eq.~\eqref{eq:prob1}~\eqref{eq:prob2}) to obtain an exact result. Performing hundred experiments for an image and accounting the number of satisfactory results is not a rational method to evaluate the performance of our method. Instead of using this direct method, we evaluate the PSNR index of an upsampling result, which quantifies the quality of a result. We measure the quality of the upsampled results with peak signal-to-noise ratio, often abbreviated PSNR, which is used to measure the ratio between the maximum possible power of a signal and the power of corrupting noise that affects the fidelity of its representation~\cite{Huynh2008}. If our method gets a satisfactory result with a high probability, the upsampling result tends to has a large PSNR index, otherwise, it should have a small PSNR index at most of the time.
+
+\subsection{Sampling Pattern}
+
+\begin{table*}[t]
+\resizebox{\textwidth}{!}{%
+\begin{tabular}{|c|c|c|c|c|c|c|c|c|}
+\hline
+\multirow{2}{*}{} & \multicolumn{2}{c|}{Books}  & \multicolumn{2}{c|}{Dolls}  & \multicolumn{2}{c|}{Moebius} & \multicolumn{2}{c|}{Plastic} \\ \cline{2-9}
+                  & Homo Region  & Border Region & Homo Region & Border Region & Homo Region  & Border Region & Homo Region  & Border Region \\ \hline
+2X                & 53.8519     & 33.1011       & 54.3603     & 31.3568       & 56.7017      & 38.2858       & 55.8319      & 35.6013       \\ \hline
+4X                & 51.1759     & 31.9870       & 53.3611     & 29.5401       & 55.7788      & 37.2668       & 54.3312      & 34.9886       \\ \hline
+8X                & 49.8089     & 30.3277       & 50.6128     & 28.0730       & 53.6832      & 34.8609       & 53.6831      & 33.6051       \\ \hline
+16X               & 45.5557     & 21.4138       & 41.4395     & 24.6849       & 47.0020      & 32.7195       & 50.6382      & 21.4138       \\ \hline
+\end{tabular}
+}
+\caption{The quality evaluation indices at different regions with four upsampling rates. The table illustrates the PSNR indices of the upsampling results of Books, Dolls, Moebius and Plastic. We can observe that the PSNR indices of homogenous  regions and border region are rather stable for 2X, 4X and 8X upsampling rates. }
+\label{Tab:evaluation}
+\end{table*}
+
+A common doubt about our upsampling method is whether the CS theory can be applied to our depth upsampling model as an additional TV term is added to the tradition CS restoration model Eq.~\eqref{eq:cs_l0}. Frankly speaking, we do not offer a mathematical analysis for the model as the traditional CS theory does and we think that a detailed mathematical analysis is out of the scope of this paper as we only target at providing a novel and practical depth upsampling method. However, the experimental results in the sequel support the idea of that our depth upsampling model behaves as the traditional CS restoration model Eq.~\eqref{eq:cs_l0} does.
+
+A major difference between CS model and the traditional interpolation methods is whether the quality of final results is heavily affected by the sampling pattern of observed data. To the best of our knowledge, the sampling pattern of observed data plays a minor role in the interpolation quality for the traditional interpolation methods. In other words, the final results only depend on the number of interpolating pixels. On the contrary, the observed data's sampling pattern completely determines the final results of CS model. \ie for some sampling patterns, the CS model could satisfactorily restore the final result from the observed data. For the other sampling patterns, the CS model fails to complete this task, even the number of observed depths is the same in both situations. The reason is that, as we stated in Section~\ref{chap:measurements}, the minimal number $m$ of measurements is determined by the mutual coherence $\mu^2(\Psi, \Phi)$, \ie
+%
+\begin{equation}
+m \geq C \cdot \mu^2(\Psi, \Phi) \cdot S \cdot \log n
+\end{equation}
+%
+For uniform grid distribution, $\mu(\Psi, \Phi) = 6$. Whereas, in the random sampling distribution situation, $\mu(\Psi, \Phi) = 2.5$ which is smaller than the mutual coherence value of the uniform grid distribution.
+
+
+
+
+
+Fig~\ref{fig:grid}~\ref{fig:random} illustrate the phenomenon for 8X upsampling, where we take two different sampling patterns (or distribution) with the same sampling number. One distribution is the uniform grid, which is usually employed by the traditional interpolation methods. The other one is the random distribution generated by Eq.~\eqref{eq:random}. We can observe that our CS based model is unable to interpolate the missing depths in the edges boundary for the uniform sampling pattern and successes to recovery the depths for random distribution. The behavior coincides with the prediction of the CS theory. Random distribution is still an inappropriate sampling pattern as it could not keep the sharp depth edges. The shortcoming can be observed in Fig~\ref{fig:grid}. As a remedy, in Section~\ref{sec:sampling_method}, we proposed a novel hybrid sampling pattern which randomly takes sample in homogeneous regions and deterministically the depths in border regions. The results is demonstrated in Fig~\ref{fig:random}. Compared with previous two sampling patterns which are the deterministic sampling pattern (\ie uniform grid) and random distribution (\ie random sampling) respectively, the restoration result Fig~\ref{fig:hybrid} of our hybrid sampling pattern is the best among the three sampling patterns.
+
+
+
+\subsection{Evaluations using the Middlebury stereo datasets}
+\label{chap:Middlebury}
+
+% Please add the following required packages to your document preamble:
+% \usepackage{multirow}
+\begin{table*}[t]
+\resizebox{\textwidth}{!}{%
+\begin{tabular}{|c|c|c|c|c|c|c|c|c|c|}
+\hline
+\multicolumn{2}{|c|}{\multirow{2}{*}{}} & \multicolumn{2}{c|}{Books}  & \multicolumn{2}{c|}{Dolls}  & \multicolumn{2}{c|}{Moebius} & \multicolumn{2}{c|}{Plastic} \\ \cline{3-10} 
+\multicolumn{2}{|c|}{}                  & Homo Region & Border Region & Homo Region & Border Region & Homo Region  & Border Region & Homo Region  & Border Region \\ \hline
+\multirow{4}{*}{\rotatebox[origin=c]{90}{Missing TV}}    & 2X     & 53.0372     & 33.1011       & 53.7279     & 31.0730       & 55.7442      & 38.0812       & 55.4101      & 34.9456       \\ \cline{2-10} 
+                               & 4X     & 50.2701     & 31.7098       & 52.2636     & 29.1045       & 54.8139      & 37.0478       & 53.4155      & 34.2395       \\ \cline{2-10} 
+                               & 8X     & 49.6819     & 30.2011       & 50.3343     & 27.7391       & 53.1256      & 34.4606       & 52.8909      & 33.1167       \\ \cline{2-10} 
+                               & 16X    & 44.6423     & 21.1348       & 40.8926     & 24.3241       & 46.3314      & 32.1776       & 49.6787      & 20.9351       \\ \hline
+\multirow{4}{*}{\rotatebox[origin=c]{90}{Missing CA}}    & 2X     & 53.8519     & 26.5463       & 54.3603     & 25.9694       & 56.7017      & 33.3882       & 55.8319      & 29.0503       \\ \cline{2-10} 
+                               & 4X     & 51.1759     & 24.9265       & 53.3611     & 23.7245       & 55.7788      & 32.8109       & 54.3312      & 26.3912       \\ \cline{2-10} 
+                               & 8X     & 49.8089     & 22.0931       & 50.6128     & 20.4178       & 53.6832      & 28.3978       & 53.6831      & 23.2012       \\ \cline{2-10} 
+                               & 16X    & 45.5557     & 14.4655       & 41.4395     & 13.7329       & 47.0020      & 25.6259       & 50.6382      & 17.9143       \\ \hline
+\end{tabular}
+}
+\caption{The quality evaluation for different parts of our algorithm. The table illustrates the PSNR indices of the upsampling results of Books, Dolls, Moebius and Plastic. We can observe that the PSNR indices of homogenous  regions and border region are rather stable for 2X, 4X and 8X upsampling rates. In the missing TV rows, we remove the TV term from our objective function and evaluate the quality of upsampling results. In the missing CA rows, we replace our CA-based border region filling algorithm by the uniform sampling and calculate  the PSNR indices of upsampling results.}
+\label{Tab:affect}
+\end{table*}
+
+Our algorithm (denoted as CS$1$) was implemented with Matlab. For comparison, four methods are selected: the bilateral-filtering based method~(denoted as Bilateral)~\cite{YYDN07}, two MRF-based methods~(denoted as MRF$1$, MRF$2$)~\cite{DT05,PKTBK11} and the original CS-based method~(denoted as CS$2$)~\cite{HKD11}. For the first two methods, we implemented them with Matlab, and the parameters were finely tuned.  For CS$2$ and MRF$2$, we directly use the source code provided by the authors. One thing needed to be clarified is that CS$2$ was not designed for the upsampling problem. We provide the results to show that our sampling strategy is more suitable for the specific problem.
+
+
+We first test the algorithm with `ideal' low resolution depth maps without noise corruption. The PSNR results for the five methods under various upsampling factors are presented in Fig~\ref{fig:exp1}. Our algorithm works better under large upsampling factors. It consistently outperforms other methods with $2$X, $4$X, $8$X and $16$X upsampling. MRF$2$ also gives overall satisfactory results in most cases, while Bilateral and MRF $1$ performs well under low upsampling rates. Compared with the sampling method used in CS$2$, our sampling data generation method plays an important role in high quality CS-based upsampling.
+
+
+
+For the qualitative comparison of PSNR, we present some $8$X upsampled results computed by CS$1$, Bilateral and MRF$2$ methods in Fig~\ref{fig:exp1_fig}. It can be seen that our method preserves sharp and accurate depth boundaries during the upsampling process, which demonstrates the effects of the $l_{1}$ regularization terms. We also own this achievement to our sampling method because our method could generate accurate samples on boundaries with CA-based region filling method and the produced boundaries coincide with the color edges of  the high-resolution reference RGB photo. The experimental results could prove our conclusions in the above sections.
+
+
+We then test the algorithm with noisy measurements. The noise characteristics in practical range sensors usually depend on the distance between the sensor and the scene. To simulate this effect, we employ a conditional Gaussian model from~\cite{PKTBK11} for noise generation. The amplitude of the noise varies for each pixel, which is set to be $\pm20\%$ of the measured depth. The PSNR results for the five methods are presented in Fig~\ref{fig:exp2}. Our method is robust against noise with little accuracy loss, and it still outperforms other methods in most cases. The performance of MRF$2$ and Bilateral drop dramatically due to the noise. This can also be verified in Fig~\ref{fig:exp2_fig}, which provides some $8$X upsampled results computed by CS$1$, MRF$2$ and Bilateral methods respectively.
+
+Our method has a great set of advantages. On the border regions, our cellular automata sampling method can produce sharp and accurate edges. Therefore, we could obtain edge-preserving results. On the homogeneous regions, our sampling method could reduce the mutual coherence between the measurement matrix $\Phi$ and the unitary matrix $\Psi$ by random sampling. So our CS-based upsampling algorithm outperforms other methods. Although it is abnormal that the performance of our method is nearly same for lower upsampling factors such as $2$X, $4$X, $8$X, the behavior is reasonable according to CS theory and the behavior does not imply fewer samples can keep reconstruction accuracy because the accuracy of our method decrease drastically at 16X upsampling factor and this tendency will be kept for larger $U$. For all the data sets, our algorithm produces the final results in $100$ seconds, which is almost the same to the running time of CS$2$, but a bit slower than the MRF-based methods.
+
+\subsection{The performance characteristic of our method}
+
+
+Unlike traditional upsampling methods whose performances consistently decrease while $U$ increasing, the accuracy of our method is not sensitive to the small upsampling rate $U$. Indeed, it tends to keep the accuracy unchanged at the lowest upsampling rate. The inflection point usually is $U = 16$ for the Middlebury stereo datasets. It is an interesting feature which is unique to our method. In fact, for most data sets, the best results are achieved at low upsampling rates. For `Books' and `Dolls', the PSNR results for $2$X and $8$X are still quite close. In this section, we give an explanation for this feature. Since we divide the domain of depth map into homogeneous region and border region and take different sampling patterns, we discriminate the upsampling behavior at different areas and provide corresponding explanation.
+
+
+For border region upsampling, we use cellular automata to detect the color edges of the guidance image and map them onto the high resolution depth map. Undoubtedly, the accuracy of detection will decrease while the upsampling rate becomes large. However, the error is not proportional to upsampling rate. From  Tab~\ref{Tab:evaluation}, we can observe that the PSNR indices of border regions are kept unchanged for small upsampling rates. Only for $16$X upsampling, the PSNR indices have a sharp reduction. The reason is that for low upsampling rate, the cellular automata could detect the depth edges accurately under the guidance of the registered color photo. For $16$X upsampling rate, the distances between seeds are very large and there are many color edges between them. Thus our cellular automata algorithm fails to decide which one is the correct depth edge.
+
+
+For homogeneous region upsampling, we randomly map the low resolution depth map into the high resolution depth map and then employ our CS based upsampling method to interpolate the missing depths. Specifically, we can only offer an heuristic explanation for the upsampling behavior of homogeneous regions because our model is out of the scope of traditional CS theory and we do not offer an in-deep mathematical analysis for our CS-based upsampling model as traditional CS theory does for the standard CS model. However, in the experiments, we find that the mutual coherence $\mu(\Psi, \Phi)$ proposed for disclosing the reconstruction condition of traditional CS theory is also a good evaluation index for our CS-based upsampling model. Specifically, CS theory~\cite{CW08} guarantees that fix a signal $f^n \in \mathbb{R}^n$ whose coefficients are at most $S$ nonzero entries in the basis $\Psi$; select $m$ measurements in the $\Phi$ domain uniformly at random; if
+\begin{equation}
+m \geq C \cdot \mu^2(\Psi, \Phi) \cdot S \cdot \log(\frac{n}{\delta})
+\end{equation}
+for some positive constant $C$, the probability of successfully obtain an exact solution to~\eqref{eq:numerical_1} exceeds $1 - \delta$. Note that CS theory does not ensure that we always get a satisfactory result; it only guarantees that the probability of getting a satisfactory result is $1-\delta$ with respect to $m$ measurements. According to our sampling method, the mutual coherence $\mu(\Psi, \Phi)$ tends to decrease with the increasing upsampling factor $U$ because large $U$ value brings more randomness to the selection of the sampling positions, which helps to lower the mutual coherence between the measurement matrix and the representation matrix. Moreover, the smaller the coherence is, the fewer samples are needed. However, compared with the mutual coherence $\mu(\Psi, \Phi)$, the number $m$ of sampling pixels (or measurements) decreases drastically along with the increasing upsampling rate $U$. Therefore, when $U = 16$, the number $m$ of measurements tends to lower than the expected sampling number which guarantees that we can obtain a satisfactory result with a high probability $1-\delta$. Although we can obtain the most samples when $U=2$, $\mu(\Psi, \Phi)$ also becomes larger in this case. In contrast, samples become fewer, but, the minimal number of measurements also small. As a result, the probability $1-\delta$ of getting a satisfactory result is not changed very much for a wide range of upsampling.
+
+
+It is also interesting to discuss the affect of the TV regularization and our CA-based border region filling algorithm for depth upsampling because they are two novel terms which are introduced to the classical compressive sensing model by us. In order to disclose the affect of them, we remove the TV regularization from our sampling model and evaluate the quality of upsampling results at first. After that, we substitute our CA-based border region filling algorithm with the uniform sampling illustrated in Fig~\ref{fig:grid} to reveal the function of our CA-based border region filling algorithm. The quantitative results are reported in Tab~\ref{Tab:affect}. Compared to Tab~\ref{Tab:evaluation}, we can easily find that the TV regularization term mainly affects the upsampling quality of homogeneous regions. This is because the PSNR indices are significantly decreased in contrast to the PSNR indices in the border region.  Different from the TV regularization term, our CA-based border region filling algorithm only affects the quality of upsampling results in the border region. The reason is that the PSNR indices of homogeneous regions in the missing CA rows are same to the data in Tab~\ref{Tab:evaluation}. If we compare the PSNR indices of the border region in the missing TV rows to PSNR indices in the missing CA rows, we can also observe that the CA-based border region filling algorithm heavily affects the final upsampling results. However, it is not reasonable to say that the CA-based border region filling algorithm is more important than the TV regularization because the TV regularization is only designed to smooth the depth values in the homogeneous region and the CA-based border region filling algorithm is only used to keep the sharp edges in the border region. In our algorithm, the two different terms are jointly exploited to improve the upsampling quality in the homogeneous region and border region simultaneously.
+
+
+\subsection{Real World Experiments}
+
+Lacking of 3D laser scanner, we use the standard database from KITTI Vision Benchmark Suite~\cite{Geiger12}. All of the data is acquired by a standard station wagon with two color and grayscale video cameras. The accurate ground truth is provided by a Velodyne laser scanner. We take advantage of the laser scanner and companied color image to perform our experiments.
+
+The KITTI database aims to offer people a challenging real-world computer vision benchmarks for autonomous driving. However, the database is not in preparation for stereo evaluation  as Scharstein~\cite{Scharstein02} did. It is a big challenge to use this KITTI Vision database for upsampling experiments, because all of the data is captured from Karlsruhe streets and the obtained scenes are usually very large, thus the object structures are relatively small in the pictures. Compared with the artificial in-door pictures used in state-of-the-art methods~\cite{DT05,YYDN07,PKTBK11,HKD11}, it suffers from varied sensing noise. This situation demands strong denosing ability of upsampling algorithm.
+
+The depth data acquired by the 3D laser scanner usually irregularly distribute on the high resolution guidance color image domain, thus we need to regulate the laser points and produce a low resolution depth map as the input of our upsampling algorithm. In section~\ref{chap:samplingdata}, we assume that a pixel $p \in D_l$ corresponds to a $U \times U$ patch in the high resolution image space. Then, if there are laser points in the $U \times U$ patch, we can randomly select a point and assign its value to $p \in D_l$ because these points concentrate in a small region and should have similar depth values. Indeed, only using the depth assignment strategy, we could not guarantee that each $p \in D_l$ has a defined depth value because the depth data acquired by the laser scanner usually has holes. In order to fulfill the holes in the low resolution depth map $D_l$, we down sample the high resolution color image to obtain a small guidance image whose size is the same as $D_l$ and use our cellular automata algorithm to fulfill the missing values by viewing the holes as edges.
+
+The upsampling technique which can significantly reduce the demand measurement number of captured depth data is  illustrated in Fig~\ref{fig:upsampling}. In the experiment, we only perform $6$X super-resolution because the size of groundtruth is $1390 \times 1110$. For $8$X upsampling, the size of downsampled image is only  $100 \times 28$. Obviously, the dimension is too small and the downsampled image loses too much information. Moreover, we catch that our algorithm can keep the sharp boundary of depth map and the method could reliably restore the geometric relationship.
+
+\section{Conclusion}
+\label{chap:conclusion}
+
+We had presented a new method for depth map upsampling. Based on the theory of Compressive Sensing, our method converts the low resolution depth maps into a set of measurements, and then formulates the upsampling task as a constrained optimization problem with data, smoothness and represent sparseness constraints. We validated our method with the Middlebury data sets, demonstrating that our method clearly outperforms previous methods under large upsampling factors and noisy inputs.
+
+
+\section{Acknowledgment}
+
+This work was supported by National Natural Science Foundation of China (No. 61332017, 61331018, 91338202, and 61271430)). The authors would like to thank respected anonymous reviewers for their constructive and valuable suggestions for improving the overall quality of this paper.
+
+
+\begin{figure*}
+\centering
+\begin{subfigure}[b]{0.24\textwidth}
+\includegraphics[width=\textwidth]{fig_exp1_books.pdf}
+\caption*{Books PSNR comparison}
+\end{subfigure}
+\begin{subfigure}[b]{0.24\textwidth}
+\includegraphics[width=\textwidth]{fig_exp1_dolls.pdf}
+\caption*{Dolls PSNR comparison}
+\end{subfigure}
+\begin{subfigure}[b]{0.24\textwidth}
+\includegraphics[width=\textwidth]{fig_exp1_moebius.pdf}
+\caption*{Moebius PSNR comparison}
+\end{subfigure}
+\begin{subfigure}[b]{0.24\textwidth}
+\includegraphics[width=\textwidth]{fig_exp1_plastic.pdf}
+\caption*{Plastic PSNR comparison}
+\end{subfigure}
+\caption{Upsampling PSNR results with ideal depth measurements. Our method (CS$1$) consistently outperforms other methods with $4\times$, $8\times$ and $16\times$ upsampling.}
+\label{fig:exp1}
+\end{figure*}
+
+
+\begin{figure*}
+\centering
+\begin{subfigure}[b]{0.24\textwidth}
+\includegraphics[height= 3.5cm, width=\textwidth]{fig_books.png}
+\end{subfigure}
+\begin{subfigure}[b]{0.24\textwidth}
+\includegraphics[height= 3.5cm, width=\textwidth]{fig_books_8X_lqdai.png}
+\end{subfigure}
+\begin{subfigure}[b]{0.24\textwidth}
+\includegraphics[height= 3.5cm, width=\textwidth]{fig_books_8X_cvpr.png}
+\end{subfigure}
+\begin{subfigure}[b]{0.24\textwidth}
+\includegraphics[height= 3.5cm, width=\textwidth]{fig_books_8X_iccv.png}
+\end{subfigure}
+\\ \vspace{0.1cm}
+\begin{subfigure}[b]{0.24\textwidth}
+\includegraphics[height= 3.5cm, width=\textwidth]{fig_dolls.png}
+\end{subfigure}
+\begin{subfigure}[b]{0.24\textwidth}
+\includegraphics[height= 3.5cm, width=\textwidth]{fig_dolls_8X_lqdai.png}
+\end{subfigure}
+\begin{subfigure}[b]{0.24\textwidth}
+\includegraphics[height= 3.5cm, width=\textwidth]{fig_dolls_8X_cvpr.png}
+\end{subfigure}
+\begin{subfigure}[b]{0.24\textwidth}
+\includegraphics[height= 3.5cm, width=\textwidth]{fig_dolls_8X_iccv.png}
+\end{subfigure}
+\\ \vspace{0.1cm}
+\begin{subfigure}[b]{0.24\textwidth}
+\includegraphics[height= 3.5cm, width=\textwidth]{fig_moebius.png}
+\end{subfigure}
+\begin{subfigure}[b]{0.24\textwidth}
+\includegraphics[height= 3.5cm, width=\textwidth]{fig_moebius_8X_lqdai.png}
+\end{subfigure}
+\begin{subfigure}[b]{0.24\textwidth}
+\includegraphics[height= 3.5cm, width=\textwidth]{fig_moebius_8X_cvpr.png}
+\end{subfigure}
+\begin{subfigure}[b]{0.24\textwidth}
+\includegraphics[height= 3.5cm, width=\textwidth]{fig_moebius_8X_iccv.png}
+\end{subfigure}
+\\ \vspace{0.1cm}
+\begin{subfigure}[b]{0.24\textwidth}
+\includegraphics[height= 3.5cm, width=\textwidth]{fig_plastic.png}
+\caption*{Ground Truth}
+\end{subfigure}
+\begin{subfigure}[b]{0.24\textwidth}
+\includegraphics[height= 3.5cm, width=\textwidth]{fig_plastic_8X_lqdai.png}
+\caption*{CS{1}}
+\end{subfigure}
+\begin{subfigure}[b]{0.24\textwidth}
+\includegraphics[height= 3.5cm, width=\textwidth]{fig_plastic_8X_cvpr.png}
+\caption*{Bilateral}
+\end{subfigure}
+\begin{subfigure}[b]{0.24\textwidth}
+\includegraphics[height= 3.5cm, width=\textwidth]{fig_plastic_8X_iccv.png}
+\caption*{MRF$2$}
+\end{subfigure}
+\caption{$8\times$ upsampled depth maps for 'Books' 'Dolls'  'Moebius' and 'Plastic' data sets. The depth results are computed with CS$1$, Bilateral and MRF$2$ respectively.}
+\label{fig:exp1_fig}
+\end{figure*}
+
+\begin{figure*}
+\centering
+\begin{subfigure}[b]{0.24\textwidth}
+\includegraphics[width=\textwidth]{fig_exp1_books_noise.pdf}
+\caption*{Books PSNR comparison}
+\end{subfigure}
+\begin{subfigure}[b]{0.24\textwidth}
+\includegraphics[width=\textwidth]{fig_exp1_dolls_noise.pdf}
+\caption*{Dolls PSNR comparison}
+\end{subfigure}
+\begin{subfigure}[b]{0.24\textwidth}
+\includegraphics[width=\textwidth]{fig_exp1_moebius_noise.pdf}
+\caption*{Moebius PSNR comparison}
+\end{subfigure}
+\begin{subfigure}[b]{0.24\textwidth}
+\includegraphics[width=\textwidth]{fig_exp1_plastic_noise.pdf}
+\caption*{Plastic PSNR comparison}
+\end{subfigure}
+\caption{Upsampling PSNR results with noisy measurements. Our method (CS$1$) still outperforms other methods in most cases. It shows robust behavior in noisy conditions.}
+\label{fig:exp2}
+\end{figure*}
+
+\begin{figure*}
+\centering
+\begin{subfigure}[b]{0.24\textwidth}
+\includegraphics[height= 3.5cm, width=\textwidth]{fig_books.png}
+\end{subfigure}
+\begin{subfigure}[b]{0.24\textwidth}
+\includegraphics[height= 3.5cm, width=\textwidth]{fig_books_8X_noise_lqdai.png}
+\end{subfigure}
+\begin{subfigure}[b]{0.24\textwidth}
+\includegraphics[height= 3.5cm, width=\textwidth]{fig_books_8X_noise_cvpr.png}
+\end{subfigure}
+\begin{subfigure}[b]{0.24\textwidth}
+\includegraphics[height= 3.5cm, width=\textwidth]{fig_books_8X_noise_iccv.png}
+\end{subfigure}
+\\ \vspace{0.1cm}
+\begin{subfigure}[b]{0.24\textwidth}
+\includegraphics[height= 3.5cm, width=\textwidth]{fig_dolls.png}
+\end{subfigure}
+\begin{subfigure}[b]{0.24\textwidth}
+\includegraphics[height= 3.5cm, width=\textwidth]{fig_dolls_8X_noise_lqdai.png}
+\end{subfigure}
+\begin{subfigure}[b]{0.24\textwidth}
+\includegraphics[height= 3.5cm, width=\textwidth]{fig_dolls_8X_noise_cvpr.png}
+\end{subfigure}
+\begin{subfigure}[b]{0.24\textwidth}
+\includegraphics[height= 3.5cm, width=\textwidth]{fig_dolls_8X_noise_iccv.png}
+\end{subfigure}
+\\ \vspace{0.1cm}
+\begin{subfigure}[b]{0.24\textwidth}
+\includegraphics[height= 3.5cm, width=\textwidth]{fig_moebius.png}
+\end{subfigure}
+\begin{subfigure}[b]{0.24\textwidth}
+\includegraphics[height= 3.5cm, width=\textwidth]{fig_moebius_8X_noise_lqdai.png}
+\end{subfigure}
+\begin{subfigure}[b]{0.24\textwidth}
+\includegraphics[height= 3.5cm, width=\textwidth]{fig_moebius_8X_noise_cvpr.png}
+\end{subfigure}
+\begin{subfigure}[b]{0.24\textwidth}
+\includegraphics[height= 3.5cm, width=\textwidth]{fig_moebius_8X_noise_iccv.png}
+\end{subfigure}
+\\ \vspace{0.1cm}
+\begin{subfigure}[b]{0.24\textwidth}
+\includegraphics[height= 3.5cm, width=\textwidth]{fig_plastic.png}
+\caption*{Ground Truth}
+\end{subfigure}
+\begin{subfigure}[b]{0.24\textwidth}
+\includegraphics[height= 3.5cm, width=\textwidth]{fig_plastic_8X_noise_lqdai.png}
+\caption*{CS{1}}
+\end{subfigure}
+\begin{subfigure}[b]{0.24\textwidth}
+\includegraphics[height= 3.5cm, width=\textwidth]{fig_plastic_8X_noise_cvpr.png}
+\caption*{Bilateral}
+\end{subfigure}
+\begin{subfigure}[b]{0.24\textwidth}
+\includegraphics[height= 3.5cm, width=\textwidth]{fig_plastic_8X_noise_iccv.png}
+\caption*{MRF$2$}
+\end{subfigure}
+%\subfigure[Ground Truth]{
+%\begin{minipage}[]{0.22\textwidth}
+%\includegraphics[width=\textwidth]{fig_dolls.eps} \\
+%\includegraphics[width=\textwidth]{fig_moebius.eps}
+%\end{minipage}
+%}
+%\subfigure[CS{1}]{
+%\begin{minipage}[]{0.22\textwidth}
+%\includegraphics[width=\textwidth]{fig_dolls_8X_noise_lqdai.eps} \\
+%\includegraphics[width=\textwidth]{fig_moebius_8X_noise_lqdai.eps}
+%\end{minipage}
+%}
+%\subfigure[Bilateral]{
+%\begin{minipage}[]{0.22\textwidth}
+%\includegraphics[width=\textwidth]{fig_dolls_8X_noise_cvpr.eps} \\
+%\includegraphics[width=\textwidth]{fig_moebius_8X_noise_cvpr.eps}
+%\end{minipage}
+%}
+%\subfigure[MRF$2$]{
+%\begin{minipage}[]{0.22\textwidth}
+%\includegraphics[width=\textwidth]{fig_dolls_8X_noise_iccv.eps}\\
+%\includegraphics[width=\textwidth]{fig_moebius_8X_noise_iccv.eps}
+%\end{minipage}
+%}
+\caption{$8\times$ upsampled depth maps with noisy measurements for 'Books' 'Dolls'  'Moebius' and 'Plastic' data sets. The depth results are computed with CS$1$, Bilateral and MRF$2$ respectively.}
+\label{fig:exp2_fig}
+\end{figure*}
+
+
+\begin{figure*}[t]
+\centering
+\begin{subfigure}[b]{0.49\textwidth}
+\includegraphics[width=\textwidth]{exp3_ref_gray.pdf}
+\end{subfigure}
+\begin{subfigure}[b]{0.49\textwidth}
+\includegraphics[width=\textwidth]{exp3_upsampling_smooth_gray.pdf}
+\end{subfigure}
+\\
+\begin{subfigure}[b]{0.49\textwidth}
+\includegraphics[width=\textwidth]{exp1_ref_gray.pdf}
+\end{subfigure}
+\begin{subfigure}[b]{0.49\textwidth}
+\includegraphics[width=\textwidth]{exp1_upsampling_smooth.png}
+\end{subfigure}
+\\
+\begin{subfigure}[b]{0.49\textwidth}
+\includegraphics[width=\textwidth]{exp2_ref_gray.pdf}
+\caption*{Input data: guided color image and low-resolution depth map}
+\end{subfigure}
+\begin{subfigure}[b]{0.49\textwidth}
+\includegraphics[width=\textwidth]{exp2_upsampling_smooth.png}
+\caption*{Upsampled result using the input data}
+\end{subfigure}
+\\
+\caption{6X upsampled results of our method for real world data. The depth-color pairs are shown at their original ratio of size.}
+\label{fig:upsampling}
+\end{figure*}
+
+%% The Appendices part is started with the command \appendix;
+%% appendix sections are then done as normal sections
+%% \appendix
+
+%% \section{}
+%% \label{}
+
+%% References
+%%
+%% Following citation commands can be used in the body text:
+%% Usage of \cite is as follows:
+%%   \cite{key}          ==>>  [#]
+%%   \cite[chap. 2]{key} ==>>  [#, chap. 2]
+%%   \citet{key}         ==>>  Author [#]
+
+%% References with bibTeX database:
+
+
+
+\section*{References}
+
+\bibliographystyle{elsarticle-num-names}
+\bibliography{paper}
+
+%% Authors are advised to submit their bibtex database files. They are
+%% requested to list a bibtex style file in the manuscript if they do
+%% not want to use model1a-num-names.bst.
+
+%% References without bibTeX database:
+
+% \begin{thebibliography}{00}
+
+%% \bibitem must have the following form:
+%%   \bibitem{key}...
+%%
+
+% \bibitem{}
+
+% \end{thebibliography}
+
+\begin{wrapfigure}{l}{3cm}
+\includegraphics [width=3cm,clip]{dai.pdf}
+\end{wrapfigure}
+\textbf{Longquan Dai} received his B.S. degree in Electronic Engineering from Henan University of Technology, China, in 2006. He received his M.S. degree in Electronic Engineering from Shantou University, China, in 2010. Currently, he is working toward the PhD degree in Computer Science  at institute of automation, Chinese academy of sciences, China. His research interests lie in computer graphics, computer vision and optimization-based techniques for image analysis and synthesis.
+
+
+
+\begin{wrapfigure}{l}{3cm}
+\includegraphics [width=3cm,clip]{wang.pdf}
+\end{wrapfigure}
+\textbf{Haoxing Wang} is a PhD candidate in the Sino-French Laboratory (LIAMA) and National Laboratory of Pattern
+Recognition (NLPR) at Institute of Automation, Chinese Academy of Sciences. He received his B.S. and M.S. degrees in geographic information system from Wuhan university of technology, China in 2006, and Beijing normal university, China, in 2010, respectively. His research interests include photogrammetry, structure from motion techniques, optimization-based techniques for image analysis and synthesis.
+
+
+
+\begin{wrapfigure}{l}{3cm}
+\includegraphics [width=3cm,clip]{zhang.pdf}
+\end{wrapfigure}
+\textbf{Xiaopeng Zhang} received his MSc
+degree in Mathematics from Northwest University in 1987, and the PhD degree in Computer Science from Institute of Software, Chinese Academy of Sciences (CAS), in 1999. He is a Professor in National Laboratory of Pattern Recognition (NLPR) and the Sino-European Laboratory in Computer Science, Automation and Applied Mathematics (LIAMA) at Institute of Automation, CAS. His main research interests are computer graphics and pattern recognition. He received the National Scientific and Technological Progress Prize (Second Class) in 2004. Xiaopeng Zhang is a member of ACM and IEEE.
+
+
+\end{document}
